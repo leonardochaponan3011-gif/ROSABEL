@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ff6b00">
   <meta name="description" content="Un espacio para descubrir el trabajo de las artesanas, reconocer su talento y visitar la tienda individual de cada creadora.">
-  <title>Artesanas | Artesanía visible</title>
+  <title>Artesanas | Kamay</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -101,12 +101,18 @@
     .directory { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 420px)); justify-content: center; gap: 20px; }
     .artisan-card { display: grid; grid-template-columns: 145px 1fr; overflow: hidden; border: 2px solid var(--pink); border-top: 7px solid var(--orange); border-radius: 24px; background: #fff; box-shadow: var(--shadow); }
     .artisan-photo { width: 100%; height: 100%; min-height: 210px; object-fit: cover; object-position: center 28%; background: var(--pink-soft); }
+    .artisan-photo-placeholder { display: grid; place-items: center; color: var(--navy); font-family: Georgia,serif; font-size: 5rem; font-weight: 700; }
     .artisan-info { display: flex; flex-direction: column; align-items: flex-start; padding: 18px; }
     .artisan-label { margin-bottom: 5px; color: var(--pink-dark); font-size: .76rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
     .artisan-info h3 { margin-bottom: 6px; font-size: 1.34rem; line-height: 1.18; }
     .artisan-info p { margin-bottom: 14px; color: var(--muted); font-size: .9rem; }
     .artisan-info .button { width: 100%; margin-top: auto; padding-inline: 12px; font-size: .9rem; }
     .directory-note { max-width: 760px; margin: 18px auto 0; color: var(--muted); font-size: .9rem; text-align: center; }
+    .join-panel { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 25px 28px; border: 2px solid var(--cyan); border-radius: 22px; background: linear-gradient(110deg, #e5fafa, #fff); box-shadow: var(--shadow); }
+    .join-panel h2 { margin: 0 0 4px; color: var(--navy); font-size: 1.6rem; line-height: 1.2; }
+    .join-panel p { max-width: 650px; margin: 0; color: var(--muted); }
+    .directory-status { flex-basis: 100%; margin: 0; color: var(--muted); font-size: .88rem; text-align: center; }
+    .artisan-summary { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
     .footer { margin-top: 68px; padding: 25px 0 34px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; text-align: center; }
     .footer a { color: var(--navy); font-weight: 750; text-underline-offset: 3px; }
 
@@ -135,6 +141,7 @@
       .section { margin-top: 52px; }
       .feature-grid, .steps { grid-template-columns: 1fr; }
       .step + .step { border-top: 1px solid #ead7a6; border-left: 0; }
+      .join-panel { align-items: stretch; flex-direction: column; padding: 21px; }
       .artisan-card { grid-template-columns: 112px 1fr; }
       .artisan-photo { min-height: 220px; }
       .artisan-info { padding: 14px; }
@@ -148,9 +155,9 @@
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <a class="brand" href="artesanas.html" aria-label="Artesanía visible, inicio">
-        <span class="brand-mark" aria-hidden="true">A</span>
-        <span>Artesanía visible<small>Un espacio para cada creadora</small></span>
+      <a class="brand" href="artesanas.html" aria-label="Kamay, inicio">
+        <span class="brand-mark" aria-hidden="true">K</span>
+        <span>Kamay<small>Un espacio para cada creadora</small></span>
       </a>
       <nav class="nav" aria-label="Navegación principal">
         <a href="#proposito">La propuesta</a>
@@ -168,7 +175,7 @@
         <p class="hero-copy">Un lugar para mostrar sus piezas, contar quién las crea y compartir el tiempo, la creatividad y la cultura que hay detrás de cada trabajo.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="#espacios">Conocer los espacios</a>
-          <a class="button button-secondary" href="#proposito">Ver cómo ayuda</a>
+          <a class="button button-secondary" href="espacio-admin.html">Crear mi espacio</a>
         </div>
       </div>
       <div class="art-panel" aria-hidden="true">
@@ -233,7 +240,7 @@
         <h2 id="directory-title">Cada artesana, en su propio espacio.</h2>
         <p>Selecciona una tienda para conocer a su creadora y ver únicamente su catálogo.</p>
       </div>
-      <div class="directory">
+      <div class="directory" id="artisanDirectory" aria-live="polite">
         <article class="artisan-card">
           <img class="artisan-photo" src="artesana-rosa.webp" alt="Rosa Bertha Llontop Lluen, artesana de Monsefú">
           <div class="artisan-info">
@@ -244,12 +251,23 @@
           </div>
         </article>
       </div>
-      <p class="directory-note">Rosabel es el primer espacio publicado. Cada nueva artesana tendrá su propia página y catálogo cuando su perfil esté listo.</p>
+      <p class="directory-note" id="directoryStatus">Rosabel es el primer espacio publicado. Cada nueva artesana podrá crear su propio perfil y catálogo desde aquí.</p>
+    </section>
+
+    <section class="section join-panel" aria-labelledby="join-title">
+      <div>
+        <h2 id="join-title">¿Eres artesana?</h2>
+        <p>Crea tu espacio individual, publica tus piezas y comparte el enlace de tu tienda con tus clientas.</p>
+      </div>
+      <a class="button button-primary" href="espacio-admin.html">Crear mi espacio</a>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap">Artesanía visible · Un espacio para cada creadora · <a href="index.html">Visitar Rosabel</a></div>
+    <div class="wrap">Kamay · Un espacio para cada creadora · <a href="index.html">Visitar Rosabel</a></div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
+  <script src="rosabel-config.js"></script>
+  <script src="artesanas-directory.js"></script>
 </body>
 </html>

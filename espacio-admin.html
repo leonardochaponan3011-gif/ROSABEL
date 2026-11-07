@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff6b00">
+  <meta name="description" content="Crea y administra tu espacio individual para mostrar tus piezas artesanales.">
+  <title>Crear mi espacio | Kamay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme:light; --ink:#20243a; --muted:#4b5263; --paper:#fffaf6; --surface:#fff; --line:#f0d5dc; --orange:#ff6b00; --navy:#18326d; --cyan-soft:#e5fafa; --pink-dark:#a90056; --pink-soft:#fff0f6; --yellow:#ffde00; --cyan:#00d2d3; --pink:#ff007f; --danger:#8a3027; --shadow:0 14px 40px rgb(45 35 45 / 11%); font-family:Poppins,"Segoe UI",Arial,sans-serif; font-size:18px; line-height:1.55; color:var(--ink); background:var(--paper); }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; background:radial-gradient(ellipse at 0% 7%,rgb(255 0 127 / 9%),transparent 27rem),radial-gradient(ellipse at 100% 43%,rgb(0 210 211 / 10%),transparent 28rem),var(--paper); }
+    a { color:inherit; }
+    :focus-visible { outline:4px solid #a94600; outline-offset:3px; }
+    .wrap { width:min(1000px,calc(100% - 36px)); margin-inline:auto; }
+    .topbar { position:sticky; top:0; z-index:5; background:rgb(255 255 255 / 95%); border-bottom:1px solid var(--line); box-shadow:0 3px 14px rgb(24 50 109 / 7%); backdrop-filter:blur(12px); }
+    .topbar-inner { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:inline-flex; align-items:center; gap:10px; text-decoration:none; font-weight:800; }
+    .brand-mark { display:grid; width:40px; height:40px; place-items:center; border:3px solid var(--yellow); border-radius:14px; color:var(--ink); background:var(--orange); font-family:Georgia,serif; font-size:1.3rem; }
+    .brand small { display:block; color:var(--muted); font-size:.68rem; font-weight:600; line-height:1.2; }
+    .topbar nav { display:flex; gap:10px; }
+    .topbar nav a { padding:8px 10px; border-radius:9px; color:var(--navy); font-weight:700; text-decoration:none; }
+    .topbar nav a:hover { background:var(--cyan-soft); }
+    main { padding:26px 0 64px; }
+    h1,h2,h3 { font-family:Georgia,"Times New Roman",serif; }
+    h1 { margin:0 0 8px; font-size:clamp(2.1rem,5vw,3.1rem); line-height:1.1; }
+    h2 { margin:0 0 7px; font-size:1.75rem; line-height:1.2; }
+    p { margin-top:0; }
+    .intro { margin-bottom:22px; padding:clamp(22px,4vw,35px); border:1px solid #f2d4bb; border-radius:24px; background:linear-gradient(128deg,#fff4d2,#fffdfa 52%,#ffedf5); box-shadow:var(--shadow); }
+    .intro p { max-width:760px; margin:0; color:var(--muted); }
+    .panel-card { margin-top:20px; padding:clamp(20px,4vw,30px); border:1px solid var(--line); border-top:6px solid var(--pink); border-radius:22px; background:#fff; box-shadow:0 10px 28px rgb(45 35 45 / 7%); }
+    .panel-card h2 { color:var(--navy); }
+    .subcopy { margin:0 0 18px; color:var(--muted); }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .field { display:flex; flex-direction:column; gap:5px; }
+    .field-wide { grid-column:1 / -1; }
+    .field label { font-weight:750; }
+    .field small { color:var(--muted); font-size:.84rem; }
+    .field input,.field textarea { width:100%; min-height:48px; padding:10px 12px; border:1.5px solid #9d9489; border-radius:10px; color:var(--ink); background:#fff; font:inherit; }
+    .field textarea { min-height:110px; resize:vertical; }
+    .field input[type=file] { padding:8px; font-size:.9rem; }
+    .check-row { display:flex; align-items:flex-start; gap:10px; margin-top:12px; color:var(--muted); }
+    .check-row input { width:22px; height:22px; margin:2px 0 0; accent-color:var(--pink-dark); }
+    .button { display:inline-flex; min-height:49px; align-items:center; justify-content:center; gap:8px; padding:10px 17px; border:2px solid transparent; border-radius:12px; text-align:center; text-decoration:none; font:inherit; font-weight:750; line-height:1.25; cursor:pointer; }
+    .button-primary { color:var(--ink); background:var(--orange); box-shadow:0 4px 0 #cf5200; }
+    .button-secondary { color:var(--navy); background:#fff; border-color:var(--pink); }
+    .button-danger { color:#762c25; background:#fff2ef; border-color:#d8a39c; }
+    .form-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:17px; }
+    .form-message { min-height:1.5em; margin:12px 0 0; color:var(--navy); font-size:.92rem; }
+    .form-message[data-kind="error"] { color:var(--danger); }
+    .owner-bar { display:flex; align-items:center; justify-content:space-between; gap:15px; margin:16px 0; padding:13px 16px; border:1px solid #cde5e5; border-radius:13px; background:var(--cyan-soft); }
+    .owner-bar p { margin:0; color:var(--navy); font-size:.91rem; font-weight:700; overflow-wrap:anywhere; }
+    .profile-link { display:inline-block; margin-top:12px; color:var(--navy); font-weight:750; text-underline-offset:3px; }
+    .products-list { display:grid; gap:11px; margin-top:19px; }
+    .product-row { display:flex; align-items:center; justify-content:space-between; gap:13px; padding:13px; border:1px solid var(--line); border-radius:13px; background:#fffaf4; }
+    .product-row p { margin:0; font-weight:750; }
+    .product-row small { display:block; color:var(--muted); font-weight:500; }
+    .product-actions { display:flex; flex-wrap:wrap; gap:7px; }
+    .product-actions .button { min-height:40px; padding:7px 11px; font-size:.85rem; }
+    .muted-note { color:var(--muted); font-size:.88rem; }
+    .footer { padding:22px 0 30px; border-top:1px solid var(--line); color:var(--muted); font-size:.88rem; text-align:center; }
+    .footer a { color:var(--navy); font-weight:750; text-underline-offset:3px; }
+    [hidden] { display:none!important; }
+    @media(max-width:640px) { .wrap { width:min(100% - 28px,500px); } .topbar-inner { min-height:auto; flex-wrap:wrap; padding-block:9px; gap:8px; } .topbar nav { order:3; width:100%; border-top:1px solid var(--line); padding-top:5px; } .topbar nav a { padding-inline:6px; font-size:.86rem; } main { padding-top:15px; } .form-grid { grid-template-columns:1fr; } .field-wide { grid-column:auto; } .form-actions { flex-direction:column; } .form-actions .button { width:100%; } .owner-bar { align-items:stretch; flex-direction:column; } .product-row { align-items:stretch; flex-direction:column; } .product-actions .button { flex:1; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="artesanas.html" aria-label="Kamay, directorio"><span class="brand-mark" aria-hidden="true">K</span><span>Kamay<small>Tu espacio, tu historia</small></span></a>
+      <nav aria-label="Navegación"><a href="artesanas.html">Volver al directorio</a><a href="index.html">Tienda de Rosa</a></nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="pageTitle">
+      <p class="eyebrow">Tu página individual</p>
+      <h1 id="pageTitle">Crea tu espacio de artesana.</h1>
+      <p>Cuenta quién eres, publica tus piezas y comparte una dirección propia para que nuevas clientas conozcan tu trabajo. Tu cuenta administra únicamente tu espacio.</p>
+    </section>
+
+    <section id="loginCard" class="panel-card" aria-labelledby="loginTitle">
+      <h2 id="loginTitle">Ingresa con tu correo</h2>
+      <p class="subcopy">Te enviaremos un enlace seguro. Si es tu primera vez, se creará tu cuenta al confirmar el correo. No necesitas contraseña.</p>
+      <form id="loginForm" class="form-grid">
+        <div class="field field-wide"><label for="loginEmail">Tu correo electrónico</label><input id="loginEmail" name="email" type="email" autocomplete="email" required placeholder="nombre@correo.com"></div>
+        <div class="field field-wide"><button class="button button-primary" type="submit">Enviar enlace de acceso</button></div>
+      </form>
+      <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="ownerPanel" hidden aria-labelledby="ownerTitle">
+      <div class="owner-bar"><p id="ownerTitle">Panel de mi espacio</p><button id="signOutButton" class="button button-secondary" type="button">Cerrar sesión</button></div>
+      <section class="panel-card" aria-labelledby="profileTitle">
+        <h2 id="profileTitle">Mi perfil de artesana</h2>
+        <p class="subcopy">Estos datos aparecen en tu página y en el directorio general.</p>
+        <form id="profileForm" class="form-grid">
+          <div class="field"><label for="shopName">Nombre de mi tienda</label><input id="shopName" maxlength="100" required placeholder="Ej. Manos de mi tierra"></div>
+          <div class="field"><label for="artisanName">Mi nombre</label><input id="artisanName" maxlength="100" required placeholder="Nombre y apellidos"></div>
+          <div class="field"><label for="artisanLocation">Mi ciudad o comunidad</label><input id="artisanLocation" maxlength="120" required placeholder="Comunidad, provincia o región"></div>
+          <div class="field"><label for="artisanWhatsapp">WhatsApp para pedidos</label><input id="artisanWhatsapp" inputmode="numeric" maxlength="15" required placeholder="51941881577"><small>Incluye el código de país; escribe solo números.</small></div>
+          <div class="field field-wide"><label for="artisanStory">Mi historia y mi trabajo</label><textarea id="artisanStory" minlength="20" maxlength="1600" required placeholder="¿Qué creas? ¿Qué significa para ti? ¿Cuánto tiempo y cuidado lleva?" ></textarea></div>
+          <div class="field field-wide"><label for="artisanPhoto">Foto para mi espacio (opcional)</label><input id="artisanPhoto" type="file" accept="image/jpeg,image/png,image/webp"><small>JPG, PNG o WebP. Máximo 8 MB.</small></div>
+          <label class="check-row field-wide"><input id="profilePublished" type="checkbox" checked><span>Mostrar mi espacio y mi catálogo en el directorio público.</span></label>
+          <div class="field field-wide"><div class="form-actions"><button class="button button-primary" type="submit">Guardar mi espacio</button></div><p id="profileMessage" class="form-message" role="status" aria-live="polite"></p><a id="publicProfileLink" class="profile-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver mi espacio público</a></div>
+        </form>
+      </section>
+
+      <section id="productPanel" class="panel-card" hidden aria-labelledby="productTitle">
+        <h2 id="productTitle">Publicar una pieza</h2>
+        <p class="subcopy">Muestra fotos, colores y un video breve para que tus clientas conozcan cómo se elabora.</p>
+        <form id="productForm" class="form-grid">
+          <div class="field"><label for="pieceName">Nombre de la pieza</label><input id="pieceName" maxlength="100" required placeholder="Nombre claro y sencillo"></div>
+          <div class="field"><label for="pieceCategory">Tipo de artesanía</label><input id="pieceCategory" maxlength="60" required placeholder="Ej. Textil, cerámica, joyería"></div>
+          <div class="field"><label for="piecePrice">Precio (S/)</label><input id="piecePrice" type="number" min="0.01" step="0.01" required></div>
+          <div class="field"><label for="pieceHours">Horas de trabajo</label><input id="pieceHours" type="number" min="0.1" step="0.1" value="1" required></div>
+          <div class="field"><label for="pieceTechnique">Técnica o proceso</label><input id="pieceTechnique" maxlength="100" required placeholder="Cómo se elabora"></div>
+          <div class="field field-wide"><label for="pieceDescription">Descripción</label><textarea id="pieceDescription" minlength="10" maxlength="1200" required placeholder="Materiales, tamaño, historia o cuidados"></textarea></div>
+          <div class="field field-wide"><label for="pieceVariants">Diseños, colores o tamaños (opcional)</label><input id="pieceVariants" maxlength="500" placeholder="Ej. Azul, Rojo, Natural"><small>Separa cada opción con coma. Usa los detalles para que la clienta elija.</small></div>
+          <div class="field field-wide"><label for="piecePhotos">Fotos del producto</label><input id="piecePhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple required><small>Hasta 8 fotos, JPG, PNG o WebP, máximo 8 MB cada una.</small></div>
+          <div class="field field-wide"><label for="pieceVideo">Video breve de elaboración (opcional)</label><input id="pieceVideo" type="file" accept="video/mp4,video/webm"><small>MP4 o WebM, máximo 25 MB y 60 segundos.</small></div>
+          <label class="check-row field-wide"><input id="productPublished" type="checkbox" checked><span>Publicar esta pieza en mi espacio.</span></label>
+          <div class="field field-wide"><div class="form-actions"><button id="saveProductButton" class="button button-primary" type="submit">Publicar pieza</button><button id="cancelEditButton" class="button button-secondary" type="button" hidden>Cancelar edición</button></div><p id="productMessage" class="form-message" role="status" aria-live="polite"></p></div>
+        </form>
+        <div id="myProducts" class="products-list" aria-live="polite"></div>
+      </section>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap">Cada tienda es independiente · <a href="artesanas.html">Volver al directorio</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0"></script>
+  <script src="rosabel-config.js"></script>
+  <script src="espacio-admin.js"></script>
+</body>
+</html>
