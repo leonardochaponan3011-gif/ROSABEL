@@ -7,6 +7,13 @@ create table if not exists private.rosabel_owner_emails (
   email text primary key check (char_length(email) between 5 and 254)
 );
 revoke all on table private.rosabel_owner_emails from anon, authenticated;
+alter table private.rosabel_owner_emails enable row level security;
+drop policy if exists "Rosabel owner can read own allowlist entry" on private.rosabel_owner_emails;
+create policy "Rosabel owner can read own allowlist entry"
+on private.rosabel_owner_emails
+for select
+to public
+using (lower(email) = lower((select auth.jwt() ->> 'email')));
 
 create or replace function private.is_rosabel_owner()
 returns boolean
