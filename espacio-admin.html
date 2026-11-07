@@ -54,17 +54,23 @@
     .owner-bar { display:flex; align-items:center; justify-content:space-between; gap:15px; margin:16px 0; padding:13px 16px; border:1px solid #cde5e5; border-radius:13px; background:var(--cyan-soft); }
     .owner-bar p { margin:0; color:var(--navy); font-size:.91rem; font-weight:700; overflow-wrap:anywhere; }
     .profile-link { display:inline-block; margin-top:12px; color:var(--navy); font-weight:750; text-underline-offset:3px; }
-    .products-list { display:grid; gap:11px; margin-top:19px; }
-    .product-row { display:flex; align-items:center; justify-content:space-between; gap:13px; padding:13px; border:1px solid var(--line); border-radius:13px; background:#fffaf4; }
-    .product-row p { margin:0; font-weight:750; }
+    .product-management { margin-bottom:25px; padding-bottom:24px; border-bottom:2px solid var(--line); }
+    .product-management h2 { margin-bottom:4px; }
+    .products-list { display:grid; gap:11px; margin-top:14px; }
+    .product-row { display:grid; grid-template-columns:76px minmax(0,1fr) auto; align-items:center; gap:13px; padding:13px; border:1px solid var(--line); border-radius:13px; background:#fffaf4; }
+    .product-row-thumb { width:76px; height:76px; border:1px solid var(--line); border-radius:11px; object-fit:cover; background:#fff; }
+    .product-row-thumb-placeholder { display:grid; place-items:center; color:var(--muted); font-size:.72rem; text-align:center; }
+    .product-row p { margin:0; font-weight:750; overflow-wrap:anywhere; }
     .product-row small { display:block; color:var(--muted); font-weight:500; }
     .product-actions { display:flex; flex-wrap:wrap; gap:7px; }
-    .product-actions .button { min-height:40px; padding:7px 11px; font-size:.85rem; }
+    .product-actions .button { min-width:92px; min-height:44px; padding:7px 11px; font-size:.88rem; }
+    .product-list-message { min-height:1.4em; margin:11px 0 0; color:var(--navy); font-size:.92rem; }
+    .product-list-message[data-kind="error"] { color:var(--danger); }
     .muted-note { color:var(--muted); font-size:.88rem; }
     .footer { padding:22px 0 30px; border-top:1px solid var(--line); color:var(--muted); font-size:.88rem; text-align:center; }
     .footer a { color:var(--navy); font-weight:750; text-underline-offset:3px; }
     [hidden] { display:none!important; }
-    @media(max-width:640px) { .wrap { width:min(100% - 28px,500px); } .topbar-inner { min-height:auto; flex-wrap:wrap; padding-block:9px; gap:8px; } .topbar nav { order:3; width:100%; border-top:1px solid var(--line); padding-top:5px; } .topbar nav a { padding-inline:6px; font-size:.86rem; } main { padding-top:15px; } .form-grid { grid-template-columns:1fr; } .field-wide { grid-column:auto; } .form-actions { flex-direction:column; } .form-actions .button { width:100%; } .owner-bar { align-items:stretch; flex-direction:column; } .product-row { align-items:stretch; flex-direction:column; } .product-actions .button { flex:1; } }
+    @media(max-width:640px) { .wrap { width:min(100% - 28px,500px); } .topbar-inner { min-height:auto; flex-wrap:wrap; padding-block:9px; gap:8px; } .topbar nav { order:3; width:100%; border-top:1px solid var(--line); padding-top:5px; } .topbar nav a { padding-inline:6px; font-size:.86rem; } main { padding-top:15px; } .form-grid { grid-template-columns:1fr; } .field-wide { grid-column:auto; } .form-actions { flex-direction:column; } .form-actions .button { width:100%; } .owner-bar { align-items:stretch; flex-direction:column; } .product-row { grid-template-columns:62px minmax(0,1fr); gap:10px; } .product-row-thumb { width:62px; height:62px; } .product-actions { grid-column:1 / -1; } .product-actions .button { flex:1; } }
   </style>
 </head>
 <body>
@@ -109,6 +115,12 @@
       </section>
 
       <section id="productPanel" class="panel-card" hidden aria-labelledby="productTitle">
+        <section class="product-management" aria-labelledby="myProductsTitle">
+          <h2 id="myProductsTitle">Mis productos</h2>
+          <p class="subcopy">Aquí puedes revisar lo publicado. En cada producto encontrarás los botones para editarlo o eliminarlo.</p>
+          <div id="myProducts" class="products-list" aria-live="polite"></div>
+          <p id="productsMessage" class="product-list-message" role="status" aria-live="polite"></p>
+        </section>
         <h2 id="productTitle">Publicar una pieza</h2>
         <p class="subcopy">Muestra fotos, colores y un video breve para que tus clientas conozcan cómo se elabora.</p>
         <form id="productForm" class="form-grid">
@@ -124,7 +136,6 @@
           <label class="check-row field-wide"><input id="productPublished" type="checkbox" checked><span>Publicar esta pieza en mi espacio.</span></label>
           <div class="field field-wide"><div class="form-actions"><button id="saveProductButton" class="button button-primary" type="submit">Publicar pieza</button><button id="cancelEditButton" class="button button-secondary" type="button" hidden>Cancelar edición</button></div><p id="productMessage" class="form-message" role="status" aria-live="polite"></p></div>
         </form>
-        <div id="myProducts" class="products-list" aria-live="polite"></div>
       </section>
     </section>
   </main>

@@ -12,6 +12,8 @@
   const productPanel = document.getElementById("productPanel");
   const productForm = document.getElementById("productForm");
   const productMessage = document.getElementById("productMessage");
+  const productsMessage = document.getElementById("productsMessage");
+  const productTitle = document.getElementById("productTitle");
   const productsList = document.getElementById("myProducts");
   const photoInput = document.getElementById("artisanPhoto");
   const productPhotosInput = document.getElementById("piecePhotos");
@@ -122,6 +124,7 @@
 
   async function loadProducts() {
     productsList.replaceChildren();
+    setMessage(productsMessage, "");
     const { data, error } = await supabase.from("artisan_products")
       .select("id,title,price,hours,technique,category,description,published,variants,media,created_at")
       .eq("artisan_id", currentUser.id)
@@ -131,13 +134,30 @@
     if (!ownerProducts.length) {
       const note = document.createElement("p");
       note.className = "muted-note";
-      note.textContent = "Todavía no has publicado piezas. Empieza con el formulario de arriba.";
+      note.textContent = "Todavía no tienes productos. Cuando publiques uno, aquí podrás editarlo o eliminarlo.";
       productsList.append(note);
       return;
     }
     ownerProducts.forEach((product) => {
       const row = document.createElement("article");
       row.className = "product-row";
+      const productPhoto = Array.isArray(product.media)
+        ? product.media.find((item) => item?.type === "image" && item.url)
+        : null;
+      if (productPhoto) {
+        const thumbnail = document.createElement("img");
+        thumbnail.className = "product-row-thumb";
+        thumbnail.src = productPhoto.url;
+        thumbnail.alt = `Foto de ${product.title}`;
+        thumbnail.loading = "lazy";
+        row.append(thumbnail);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "product-row-thumb product-row-thumb-placeholder";
+        placeholder.textContent = "Sin foto";
+        placeholder.setAttribute("aria-hidden", "true");
+        row.append(placeholder);
+      }
       const details = document.createElement("p");
       const variants = Array.isArray(product.variants) ? product.variants.length : 0;
       details.textContent = `${product.title} · S/ ${Number(product.price).toFixed(2)}`;
@@ -150,11 +170,15 @@
       edit.type = "button";
       edit.className = "button button-secondary";
       edit.textContent = "Editar";
+      edit.setAttribute("aria-label", `Editar ${product.title}`);
+      edit.title = `Editar ${product.title}`;
       edit.addEventListener("click", () => beginEdit(product));
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "button button-danger";
       remove.textContent = "Eliminar";
+      remove.setAttribute("aria-label", `Eliminar ${product.title}`);
+      remove.title = `Eliminar ${product.title}`;
       remove.addEventListener("click", () => deleteProduct(product));
       actions.append(edit, remove);
       row.append(details, actions);
@@ -173,10 +197,12 @@
     document.getElementById("pieceVariants").value = (product.variants || []).map((variant) => typeof variant === "string" ? variant : variant.name || "").join(", ");
     document.getElementById("productPublished").checked = product.published;
     productPhotosInput.required = false;
+    productTitle.textContent = `Editar producto: ${product.title}`;
     productSaveButton.textContent = "Guardar cambios";
     cancelEditButton.hidden = false;
     setMessage(productMessage, "Elige archivos nuevos si deseas reemplazar las fotos o el video. Si los dejas vacíos, conservaremos los actuales.");
-    productPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    productForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("pieceName").focus({ preventScroll: true });
   }
 
   function resetProductForm() {
@@ -185,6 +211,7 @@
     document.getElementById("pieceHours").value = "1";
     document.getElementById("productPublished").checked = true;
     productPhotosInput.required = true;
+    productTitle.textContent = "Publicar una pieza";
     productSaveButton.textContent = "Publicar pieza";
     cancelEditButton.hidden = true;
     setMessage(productMessage, "");
@@ -192,15 +219,22 @@
 
   async function deleteProduct(product) {
     if (!window.confirm(`¿Eliminar “${product.title}” de tu espacio?`)) return;
-    setMessage(productMessage, "Eliminando la pieza…");
-    const { error } = await supabase.from("artisan_products").delete().eq("id", product.id);
-    if (error) {
-      setMessage(productMessage, "No se pudo eliminar la pieza. Inténtalo de nuevo.", "error");
-      return;
+    setMessage(productsMessage, `Eliminando “${product.title}”…`);
+    try {
+      const { error } = await supabase.from("artisan_products").delete().eq("id", product.id);
+      if (error) throw error;
+      const cleanup = await removeUploadedMedia(product.media || []);
+      if (editingProduct?.id === product.id) resetProductForm();
+      await loadProducts();
+      if (cleanup.error) {
+        setMessage(productsMessage, `“${product.title}” se eliminó, pero no pudimos retirar sus fotos y videos.`, "error");
+      } else {
+        setMessage(productsMessage, `“${product.title}” se eliminó de tu espacio.`);
+      }
+    } catch (error) {
+      console.error("No se pudo eliminar el producto.", error);
+      setMessage(productsMessage, "No se pudo eliminar el producto. Inténtalo de nuevo.", "error");
     }
-    await removeUploadedMedia(product.media || []);
-    setMessage(productMessage, "La pieza se eliminó de tu espacio.");
-    await loadProducts();
   }
 
   async function showOwnerPanel(session) {
