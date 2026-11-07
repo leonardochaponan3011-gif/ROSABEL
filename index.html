@@ -84,6 +84,8 @@
     .artisan-location { margin: 0 0 3px; color: var(--muted); font-size: .92rem; font-weight: 650; }
     .artisan-content h2 { margin: 0; font-family: Georgia, serif; font-size: 1.8rem; }
     .artisan-caption { margin: 9px 0 0; color: var(--navy); font-weight: 650; }
+    .artisan-whatsapp { display: inline-block; margin-top: 12px; color: var(--pink-dark); font-size: .9rem; font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+    .artisan-whatsapp:hover { color: var(--navy); }
 
     .value-strip { display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; margin-block: 4px 76px; border: 1px solid #ead7a6; border-radius: var(--radius); background: #fff9df; box-shadow: var(--shadow); }
     .value-item { padding: 21px 24px; }
@@ -253,6 +255,7 @@
           <p class="artisan-location">Monsefú · Lambayeque</p>
           <h2>Rosa Bertha Llontop Lluen</h2>
           <p class="artisan-caption">Artesana · bisutería y técnica coiling</p>
+          <a class="artisan-whatsapp" href="https://wa.me/51941881577?text=Hola%20Rosa%2C%20quisiera%20consultar%20por%20sus%20artesan%C3%ADas." target="_blank" rel="noopener noreferrer">Escribir a Rosa por WhatsApp · +51 941 881 577</a>
         </div>
       </article>
     </section>
@@ -298,7 +301,7 @@
     <section class="section" aria-label="Ayuda para realizar un pedido">
       <details class="help-box">
         <summary>¿Cómo hago un pedido?</summary>
-        <p>Elige “Pedir esta pieza”, escribe tu nombre y guarda el pedido. Quedará en este navegador. Después puedes abrir WhatsApp, elegir el contacto de la artesana y coordinar disponibilidad, entrega y pago. No se realiza un cobro desde esta página.</p>
+        <p>Elige “Pedir esta pieza”, escribe tu nombre y guarda el pedido. Quedará en este navegador. Después, el botón de WhatsApp abrirá la conversación con Rosa Bertha Llontop Lluen para coordinar disponibilidad, entrega y pago. No se realiza un cobro desde esta página.</p>
       </details>
     </section>
   </main>
@@ -346,9 +349,9 @@
           <button class="close-button" type="button" data-close="orderDialog">Cerrar ventana</button>
         </div>
         <p id="confirmationDetails" class="confirmation-copy"></p>
-        <p class="privacy-note">Para que Rosa Bertha Llontop Lluen lo reciba, elige su contacto en WhatsApp y revisa el mensaje antes de enviarlo. Aún debes coordinar disponibilidad, entrega y forma de pago.</p>
+        <p class="privacy-note">WhatsApp abrirá una conversación con Rosa Bertha Llontop Lluen (+51 941 881 577). Revisa el pedido y pulsa enviar; luego coordinen disponibilidad, entrega y forma de pago.</p>
         <div class="dialog-actions">
-          <a id="shareOrderLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer">Compartir pedido por WhatsApp</a>
+          <a id="shareOrderLink" class="button button-primary" href="https://wa.me/51941881577" target="_blank" rel="noopener noreferrer">Enviar pedido al WhatsApp de Rosa</a>
           <button id="viewOrdersButton" class="button button-secondary" type="button">Ver mis pedidos</button>
         </div>
       </div>
@@ -376,6 +379,7 @@
     (() => {
       "use strict";
       const STORAGE_KEY = "rosabel.catalogo-y-pedidos.v1";
+      const ARTESANA_WHATSAPP = "51941881577";
       const DEFAULT_PRODUCTS = [{
         id: "arete-coiling-rosa",
         title: "Arete de coiling",
@@ -581,7 +585,7 @@
       function whatsappUrl(order) {
         const phoneNote = order.buyerPhone ? ` Mi teléfono para coordinar es ${order.buyerPhone}.` : "";
         const message = `Hola, soy ${order.buyerName}. Quisiera consultar disponibilidad, entrega y forma de pago de ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de “${order.productTitle}”, hecha por ${order.artisan}. Total indicado: ${money(order.total)}.${phoneNote}`;
-        return `https://wa.me/?text=${encodeURIComponent(message)}`;
+        return `https://wa.me/${ARTESANA_WHATSAPP}?text=${encodeURIComponent(message)}`;
       }
 
       function createOrderCard(order) {
@@ -600,7 +604,7 @@
         share.href = whatsappUrl(order);
         share.target = "_blank";
         share.rel = "noopener noreferrer";
-        share.textContent = "Compartir este pedido por WhatsApp";
+        share.textContent = "Enviar pedido al WhatsApp de Rosa";
         article.append(status, title, detail, share);
         return article;
       }
