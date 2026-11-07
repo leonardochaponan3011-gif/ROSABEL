@@ -198,6 +198,11 @@
     .success-mark { display: grid; width: 58px; height: 58px; margin-bottom: 12px; place-items: center; border-radius: 50%; color: var(--navy); background: var(--cyan-soft); font-size: 1.9rem; font-weight: 800; }
     .confirmation-copy { color: var(--muted); }
     .saved-order { margin: 14px 0; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+    .saved-order-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .saved-order-header .status-label { margin-bottom: 0; }
+    .order-remove { display: grid; width: 44px; height: 44px; flex: 0 0 44px; place-items: center; padding: 0 0 3px; border: 1.5px solid #aa596a; border-radius: 50%; color: #76283d; background: #fff4f6; font: inherit; font-size: 1.65rem; font-weight: 800; line-height: 1; cursor: pointer; }
+    .order-remove:hover { background: #ffe0e7; }
+    .order-remove:focus-visible { outline: 4px solid #a94600; outline-offset: 3px; }
     .saved-order h3 { margin: 0 0 3px; font-family: Georgia, serif; font-size: 1.15rem; }
     .saved-order p { margin: 4px 0 12px; color: var(--muted); font-size: .92rem; }
     .status-label { display: inline-block; margin-bottom: 8px; padding: 3px 9px; border-radius: 999px; color: #6d4d0b; background: #f7edce; font-size: .78rem; font-weight: 800; }
@@ -872,9 +877,19 @@
       function createOrderCard(order) {
         const article = document.createElement("article");
         article.className = "saved-order";
+        const header = document.createElement("div");
+        header.className = "saved-order-header";
         const status = document.createElement("span");
         status.className = "status-label";
         status.textContent = "Pendiente de coordinar";
+        const remove = document.createElement("button");
+        remove.className = "order-remove";
+        remove.type = "button";
+        remove.textContent = "×";
+        remove.title = "Retirar este pedido";
+        remove.setAttribute("aria-label", `Retirar el pedido de ${order.productTitle}`);
+        remove.addEventListener("click", () => removeOrder(order.id));
+        header.append(status, remove);
         const title = document.createElement("h3");
         title.textContent = order.productTitle;
         const detail = document.createElement("p");
@@ -887,7 +902,7 @@
         share.target = "_blank";
         share.rel = "noopener noreferrer";
         share.textContent = "Enviar pedido al WhatsApp de Rosa";
-        article.append(status, title, detail, share);
+        article.append(header, title, detail, share);
         return article;
       }
 
@@ -903,6 +918,24 @@
           [...state.orders].reverse().forEach((order) => list.append(createOrderCard(order)));
         }
         document.getElementById("ordersButton").textContent = `Mis pedidos (${state.orders.length})`;
+      }
+
+      function removeOrder(orderId) {
+        const order = state.orders.find((item) => item.id === orderId);
+        if (!order) return;
+        const confirmed = window.confirm("¿Retirar este pedido de Mis pedidos? Se eliminará de este navegador. Si ya lo enviaste por WhatsApp, esto no cancela esa conversación.");
+        if (!confirmed) return;
+
+        const previousOrders = state.orders;
+        state.orders = previousOrders.filter((item) => item.id !== orderId);
+        if (!saveState()) {
+          state.orders = previousOrders;
+          renderOrders();
+          showToast("No pudimos retirar el pedido. Inténtalo otra vez.", "error");
+          return;
+        }
+        renderOrders();
+        showToast("Pedido retirado de Mis pedidos.");
       }
 
       function submitOrder(event) {
