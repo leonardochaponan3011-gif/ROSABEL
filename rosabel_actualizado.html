@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ff6b00">
+  <meta name="description" content="Conoce, valora y pide artesanías hechas a mano por creadoras de Lambayeque.">
+  <title>Rosabel | Artesanía con historia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20243a;
+      --muted: #4b5263;
+      --paper: #fffaf6;
+      --surface: #ffffff;
+      --line: #f0d5dc;
+      --orange: #ff6b00;
+      --navy: #18326d;
+      --cyan-soft: #e5fafa;
+      --pink-dark: #c0005f;
+      --pink-soft: #fff0f6;
+      --yellow: #ffde00;
+      --cyan: #00d2d3;
+      --pink: #ff007f;
+      --danger: #8a3027;
+      --shadow: 0 14px 40px rgb(45 35 45 / 11%);
+      --radius: 22px;
+      font-family: Poppins, "Segoe UI", Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body { margin: 0; min-width: 320px; background: radial-gradient(ellipse at 0% 7%, rgb(255 0 127 / 9%), transparent 27rem), radial-gradient(ellipse at 100% 43%, rgb(0 210 211 / 10%), transparent 28rem), radial-gradient(ellipse at 16% 80%, rgb(255 222 0 / 12%), transparent 24rem), var(--paper); }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 4px solid #a94600; outline-offset: 3px; }
+
+    .wrap { width: min(1140px, calc(100% - 40px)); margin-inline: auto; }
+    .topbar { position: sticky; top: 0; z-index: 5; background: rgb(255 255 255 / 94%); border-bottom: 1px solid var(--line); box-shadow: 0 3px 14px rgb(24 50 109 / 7%); backdrop-filter: blur(12px); }
+    .topbar-inner { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 800; font-size: 1.3rem; letter-spacing: .01em; }
+    .brand-mark { display: grid; width: 42px; height: 42px; place-items: center; border: 3px solid var(--yellow); border-radius: 15px; color: var(--ink); background: var(--orange); font-family: Georgia, serif; font-size: 1.45rem; }
+    .brand small { display: block; color: var(--muted); font-size: .7rem; font-weight: 600; letter-spacing: .02em; line-height: 1.15; }
+    .nav { display: flex; align-items: center; gap: 8px; }
+    .nav a { padding: 10px 12px; color: var(--muted); border-radius: 10px; text-decoration: none; font-weight: 650; }
+    .nav a:hover { color: var(--navy); background: var(--cyan-soft); }
+
+    .button { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; gap: 9px; padding: 11px 18px; border: 2px solid transparent; border-radius: 13px; text-align: center; text-decoration: none; font-weight: 750; line-height: 1.25; transition: background-color .15s, transform .15s, border-color .15s; }
+    .button:hover { transform: translateY(-1px); }
+    .button-primary { color: var(--ink); background: var(--orange); box-shadow: 0 5px 0 #cf5200; }
+    .button-primary:hover { background: #ff8a35; }
+    .button-secondary { color: var(--navy); background: #fff; border-color: var(--pink); }
+    .button-secondary:hover { background: var(--pink-soft); }
+    .button-warm { color: var(--ink); background: var(--yellow); border-color: #d2b300; }
+    .button-warm:hover { background: var(--cyan); }
+    .button-small { min-height: 44px; padding: 8px 13px; font-size: .95rem; }
+
+    main { padding-bottom: 70px; }
+    .hero { display: grid; grid-template-columns: 1.13fr .87fr; gap: clamp(28px, 6vw, 72px); align-items: center; padding-block: 62px 46px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; color: var(--navy); font-size: .88rem; font-weight: 800; letter-spacing: .045em; text-transform: uppercase; }
+    .eyebrow::before { width: 9px; height: 9px; border-radius: 50%; background: var(--pink); content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 680px; margin-bottom: 18px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.5rem, 5.5vw, 4rem); line-height: 1.09; letter-spacing: -.035em; }
+    .hero-copy { max-width: 620px; color: var(--muted); font-size: 1.12rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .artisan-card { overflow: hidden; border: 1px solid var(--line); border-top: 6px solid var(--pink); border-radius: 28px; background: var(--surface); box-shadow: var(--shadow); }
+    .artisan-photo { display: block; width: 100%; height: 310px; object-fit: cover; object-position: center 36%; background: #ffe5ef; }
+    .artisan-content { padding: 22px 24px 24px; }
+    .artisan-location { margin: 0 0 3px; color: var(--muted); font-size: .92rem; font-weight: 650; }
+    .artisan-content h2 { margin: 0; font-family: Georgia, serif; font-size: 1.8rem; }
+    .artisan-caption { margin: 9px 0 0; color: var(--navy); font-weight: 650; }
+
+    .value-strip { display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; margin-block: 4px 76px; border: 1px solid #ead7a6; border-radius: var(--radius); background: #fff9df; box-shadow: var(--shadow); }
+    .value-item { padding: 21px 24px; }
+    .value-item + .value-item { border-left: 1px solid #ead7a6; }
+    .value-item:nth-child(2) { background: #fff0f6; }
+    .value-item:nth-child(3) { background: #e5fafa; }
+    .value-item strong { display: block; margin-bottom: 3px; color: var(--navy); font-size: 1.1rem; }
+    .value-item span { color: var(--muted); font-size: .94rem; }
+
+    .section { margin-top: 68px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 22px; margin-bottom: 22px; }
+    .section-heading h2 { margin-bottom: 5px; font-family: Georgia, serif; font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.15; }
+    .section-heading p { max-width: 650px; margin-bottom: 0; color: var(--muted); }
+    .catalog-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 22px; }
+    .search { flex: 1 1 260px; position: relative; }
+    .search label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .search input { width: 100%; min-height: 52px; padding: 10px 15px 10px 46px; border: 1.5px solid #aaa093; border-radius: 13px; background: var(--surface); }
+    .search-mark { position: absolute; top: 13px; left: 15px; color: var(--muted); font-size: 1.15rem; pointer-events: none; }
+    .category-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .category-chip { min-height: 46px; padding: 8px 14px; border: 1.5px solid #aaa093; border-radius: 999px; color: var(--ink); background: var(--surface); font-size: .92rem; font-weight: 700; }
+    .category-chip[aria-pressed="true"] { color: var(--ink); border-color: var(--yellow); background: var(--yellow); }
+    .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+    .product-card { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 6px 22px rgb(53 45 34 / 5%); }
+    .product-art { display: grid; height: 226px; place-items: center; background: linear-gradient(145deg, #fff0f6 0%, #fff8df 52%, #e5fafa 100%); }
+    .product-art svg { width: min(84%, 300px); height: 190px; }
+    .product-photo { display: block; width: 100%; height: 226px; object-fit: cover; background: #ede5dc; }
+    .product-body { padding: 20px; }
+    .product-category { display: inline-block; margin-bottom: 7px; color: var(--pink-dark); font-size: .81rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
+    .product-body h3 { margin-bottom: 5px; font-family: Georgia, serif; font-size: 1.45rem; line-height: 1.25; }
+    .made-by { margin-bottom: 12px; color: var(--muted); font-size: .93rem; font-weight: 650; }
+    .product-description { margin-bottom: 16px; color: var(--muted); font-size: .96rem; }
+    .craft-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .craft-fact { padding: 9px 10px; border-radius: 11px; color: var(--navy); background: var(--cyan-soft); font-size: .87rem; font-weight: 700; line-height: 1.35; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+    .product-price { color: var(--ink); font-size: 1.5rem; font-weight: 850; }
+    .product-card .button { width: 100%; }
+    .empty-state { grid-column: 1 / -1; padding: 28px; border: 1px dashed #aaa093; border-radius: var(--radius); color: var(--muted); background: var(--surface); text-align: center; }
+
+    .story { display: grid; grid-template-columns: .72fr 1.28fr; gap: 24px; padding: clamp(24px, 5vw, 46px); border: 5px solid var(--cyan); border-radius: 28px; color: #fff; background: var(--navy); box-shadow: var(--shadow); }
+    .story-label { margin: 0 0 8px; color: var(--yellow); font-size: .86rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .story h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15; }
+    .story p { margin-bottom: 12px; color: #f3f3e8; font-size: 1rem; }
+    .story p:last-child { margin-bottom: 0; }
+    .help-box { padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .help-box summary { color: var(--navy); font-size: 1.08rem; font-weight: 800; cursor: pointer; }
+    .help-box p { margin: 13px 0 0; color: var(--muted); }
+    .footer { padding-block: 26px 40px; color: var(--muted); font-size: .9rem; text-align: center; }
+
+    dialog { width: min(620px, calc(100% - 28px)); max-height: min(90vh, 820px); overflow: auto; padding: 0; border: 1px solid var(--line); border-radius: 22px; color: var(--ink); background: var(--surface); box-shadow: 0 28px 90px rgb(0 0 0 / 28%); }
+    dialog::backdrop { background: rgb(35 31 26 / 58%); }
+    .dialog-inner { padding: clamp(20px, 5vw, 32px); }
+    .dialog-header { display: flex; align-items: start; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+    .dialog-header h2 { margin: 0 0 3px; font-family: Georgia, serif; font-size: 1.8rem; line-height: 1.2; }
+    .dialog-header p { margin: 0; color: var(--muted); font-size: .96rem; }
+    .close-button { flex: 0 0 auto; min-height: 44px; padding: 7px 11px; border: 1.5px solid #aaa093; border-radius: 10px; color: var(--ink); background: white; font-size: .88rem; font-weight: 700; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field-wide { grid-column: 1 / -1; }
+    .field label { font-weight: 750; }
+    .field small, .form-note { color: var(--muted); font-size: .88rem; line-height: 1.45; }
+    .field input, .field select, .field textarea { width: 100%; min-height: 50px; padding: 10px 12px; border: 1.5px solid #9d9489; border-radius: 10px; color: var(--ink); background: white; }
+    .field textarea { min-height: 105px; resize: vertical; }
+    .field input[type="file"] { padding: 8px; }
+    .order-summary { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 18px 0; padding: 15px; border-radius: 12px; background: var(--cyan-soft); font-weight: 700; }
+    .order-total { color: var(--navy); font-size: 1.3rem; font-weight: 850; white-space: nowrap; }
+    .form-note { margin: 14px 0 18px; }
+    .dialog-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .dialog-actions .button { flex: 1 1 185px; }
+    .success-mark { display: grid; width: 58px; height: 58px; margin-bottom: 12px; place-items: center; border-radius: 50%; color: var(--navy); background: var(--cyan-soft); font-size: 1.9rem; font-weight: 800; }
+    .confirmation-copy { color: var(--muted); }
+    .saved-order { margin: 14px 0; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: white; }
+    .saved-order h3 { margin: 0 0 3px; font-family: Georgia, serif; font-size: 1.15rem; }
+    .saved-order p { margin: 4px 0 12px; color: var(--muted); font-size: .92rem; }
+    .status-label { display: inline-block; margin-bottom: 8px; padding: 3px 9px; border-radius: 999px; color: #6d4d0b; background: #f7edce; font-size: .78rem; font-weight: 800; }
+    .privacy-note { padding: 12px; border-radius: 12px; color: var(--muted); background: #f3f0ea; font-size: .86rem; }
+    .toast { position: fixed; right: 18px; bottom: 18px; z-index: 10; width: min(420px, calc(100% - 36px)); padding: 13px 16px; border-radius: 13px; color: white; background: var(--navy); box-shadow: var(--shadow); font-weight: 700; }
+    .toast[data-kind="error"] { background: var(--danger); }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 820px) {
+      .topbar-inner { flex-wrap: wrap; padding-block: 10px; }
+      .nav { order: 3; width: 100%; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 6px; }
+      .nav a { padding-inline: 8px; font-size: .92rem; }
+      .hero { grid-template-columns: 1fr 1fr; gap: 25px; padding-top: 44px; }
+      .artisan-photo { height: 270px; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      :root { font-size: 17px; }
+      .wrap { width: min(100% - 28px, 500px); }
+      .topbar-inner { min-height: auto; gap: 8px; }
+      .brand { font-size: 1.16rem; }
+      .brand-mark { width: 38px; height: 38px; }
+      #ordersButton { min-height: 44px; padding: 8px 10px; font-size: .88rem; }
+      .nav { gap: 2px; }
+      .nav a { font-size: .84rem; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding-block: 38px 26px; }
+      h1 { font-size: clamp(2.35rem, 12vw, 3.15rem); }
+      .hero-copy { font-size: 1.03rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .artisan-photo { height: 245px; }
+      .value-strip { grid-template-columns: 1fr; margin-bottom: 56px; }
+      .value-item { padding: 15px 18px; }
+      .value-item + .value-item { border-top: 1px solid #ead7a6; border-left: 0; }
+      .section { margin-top: 54px; }
+      .section-heading { align-items: stretch; flex-direction: column; gap: 14px; }
+      .catalog-tools { align-items: stretch; flex-direction: column; }
+      .category-list { overflow-x: auto; flex-wrap: nowrap; padding: 2px 2px 6px; }
+      .category-chip { flex: 0 0 auto; }
+      .product-grid { grid-template-columns: 1fr; }
+      .product-art, .product-photo { height: 225px; }
+      .story { grid-template-columns: 1fr; gap: 17px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field-wide { grid-column: auto; }
+      .dialog-inner { padding: 21px 18px; }
+      .dialog-actions { flex-direction: column; }
+      .dialog-actions .button { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#inicio" aria-label="Rosabel, ir al inicio">
+        <span class="brand-mark" aria-hidden="true">R</span>
+        <span>Rosabel<small>Artesanía con historia</small></span>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#catalogo">Comprar</a>
+        <a href="#historia">Conocer a las artesanas</a>
+      </nav>
+      <button id="ordersButton" class="button button-secondary button-small" type="button">Mis pedidos (0)</button>
+    </div>
+  </header>
+
+  <main id="inicio" class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Hecho a mano en Lambayeque</p>
+        <h1 id="hero-title">Cada pieza lleva tiempo, talento e historia.</h1>
+        <p class="hero-copy">Descubre el trabajo de las artesanas de Monsefú. Conoce quién creó cada pieza y cuánto cuidado hay detrás antes de elegir la tuya.</p>
+      <div class="hero-actions">
+          <button id="featuredOrderButton" class="button button-primary" type="button">Pedir aretes de coiling · S/ 30</button>
+          <a class="button button-secondary" href="#catalogo">Explorar todas las piezas</a>
+        </div>
+      </div>
+      <article class="artisan-card" aria-label="Artesana Rosa Bertha">
+        <img class="artisan-photo" src="artesana-rosa.webp" alt="Rosa Bertha, artesana de Monsefú, con sus piezas de bisutería" width="1266" height="1266">
+        <div class="artisan-content">
+          <p class="artisan-location">Monsefú · Lambayeque</p>
+          <h2>Rosa Bertha</h2>
+          <p class="artisan-caption">Artesana de la técnica coiling</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="value-strip" aria-label="Por qué valorar una pieza artesanal">
+      <div class="value-item"><strong>Tiempo que se reconoce</strong><span>Cada ficha muestra las horas de trabajo.</span></div>
+      <div class="value-item"><strong>Una creadora, no una fábrica</strong><span>Conoce a la persona y el lugar detrás de la pieza.</span></div>
+      <div class="value-item"><strong>Pedido en tres toques</strong><span>Elige la pieza, guarda el pedido y coordina.</span></div>
+    </section>
+
+    <section id="catalogo" class="section" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Piezas únicas, hechas con paciencia</p>
+          <h2 id="catalog-title">Elige tu artesanía</h2>
+          <p>Lee el precio, la técnica y el tiempo de elaboración. Luego podrás pedirla directamente a la artesana.</p>
+        </div>
+        <button id="addProductButton" class="button button-secondary" type="button">Soy artesana: publicar una pieza</button>
+      </div>
+      <div class="catalog-tools">
+        <div class="search">
+          <span class="search-mark" aria-hidden="true">⌕</span>
+          <label for="searchInput">Buscar artesanías por nombre, creadora o técnica</label>
+          <input id="searchInput" type="search" placeholder="Buscar una pieza, artesana o técnica">
+        </div>
+        <div id="categoryList" class="category-list" aria-label="Filtrar por categoría"></div>
+      </div>
+      <div id="productGrid" class="product-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="historia" class="section story" aria-labelledby="story-title">
+      <div>
+        <p class="story-label">El valor detrás de la pieza</p>
+        <h2 id="story-title">Comprar también puede ayudar a preservar un saber.</h2>
+      </div>
+      <div>
+        <p>En Monsefú, las técnicas artesanales pasan de mano en mano. Cada producto tiene una creadora, un proceso y horas de trabajo que merecen ser vistos y valorados.</p>
+        <p>Por eso mostramos el nombre de la artesana, su lugar, su técnica y el tiempo que dedica. Así puedes elegir con más información y reconocer el esfuerzo que forma parte del precio.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Ayuda para realizar un pedido">
+      <details class="help-box">
+        <summary>¿Cómo hago un pedido?</summary>
+        <p>Elige “Pedir esta pieza”, escribe tu nombre y guarda el pedido. Quedará en este navegador. Después puedes abrir WhatsApp, elegir el contacto de la artesana y coordinar disponibilidad, entrega y pago. No se realiza un cobro desde esta página.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">Rosabel · Una vitrina para el talento artesanal de Lambayeque.</div>
+  </footer>
+
+  <dialog id="orderDialog" aria-labelledby="orderTitle">
+    <div class="dialog-inner">
+      <div id="orderFormView">
+        <div class="dialog-header">
+          <div><h2 id="orderTitle">Pide esta pieza</h2><p id="orderProductName"></p><p id="orderProductInfo" class="form-note"></p></div>
+          <button class="close-button" type="button" data-close="orderDialog">Cerrar ventana</button>
+        </div>
+        <form id="orderForm">
+          <div class="form-grid">
+            <div class="field field-wide">
+              <label for="buyerName">¿Cómo te llamas?</label>
+              <input id="buyerName" name="buyerName" autocomplete="name" required maxlength="80" placeholder="Tu nombre">
+            </div>
+            <div class="field field-wide">
+              <label for="buyerPhone">Teléfono para coordinar <span class="form-note">(opcional)</span></label>
+              <input id="buyerPhone" name="buyerPhone" type="tel" autocomplete="tel" maxlength="30" placeholder="Ejemplo: 987 654 321">
+            </div>
+            <div class="field field-wide">
+              <label for="orderQuantity">¿Cuántas piezas deseas?</label>
+              <select id="orderQuantity" name="quantity">
+                <option value="1">1 pieza</option><option value="2">2 piezas</option><option value="3">3 piezas</option><option value="4">4 piezas</option><option value="5">5 piezas</option>
+              </select>
+            </div>
+          </div>
+          <div class="order-summary"><span id="orderSummaryText"></span><span id="orderTotal" class="order-total"></span></div>
+          <p class="privacy-note">El pedido se guarda en este navegador. No se envía a la artesana ni se hace un cobro hasta que tú decidas coordinar.</p>
+          <div class="dialog-actions">
+            <button class="button button-primary" type="submit">Guardar pedido y continuar</button>
+            <button class="button button-secondary" type="button" data-close="orderDialog">Volver a la pieza</button>
+          </div>
+        </form>
+      </div>
+      <div id="orderConfirmation" hidden>
+        <div class="success-mark" aria-hidden="true">✓</div>
+        <div class="dialog-header">
+          <div><h2 id="confirmationTitle">Tu pedido está guardado</h2><p id="confirmationOrderId"></p></div>
+          <button class="close-button" type="button" data-close="orderDialog">Cerrar ventana</button>
+        </div>
+        <p id="confirmationDetails" class="confirmation-copy"></p>
+        <p class="privacy-note">Para que Rosa lo reciba, elige su contacto en WhatsApp y revisa el mensaje antes de enviarlo. Aún debes coordinar disponibilidad, entrega y forma de pago.</p>
+        <div class="dialog-actions">
+          <a id="shareOrderLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer">Compartir pedido por WhatsApp</a>
+          <button id="viewOrdersButton" class="button button-secondary" type="button">Ver mis pedidos</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="productDialog" aria-labelledby="productDialogTitle">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <div><h2 id="productDialogTitle">Publica tu pieza</h2><p>Cuéntale a tus clientas quién eres y qué hace especial tu trabajo.</p></div>
+        <button class="close-button" type="button" data-close="productDialog">Cerrar ventana</button>
+      </div>
+      <form id="productForm">
+        <div class="form-grid">
+          <div class="field field-wide"><label for="newTitle">Nombre de la pieza</label><input id="newTitle" name="title" required maxlength="70" placeholder="Ejemplo: Collar tejido a mano"></div>
+          <div class="field"><label for="newPrice">Precio (S/)</label><input id="newPrice" name="price" type="number" min="1" max="100000" step="0.50" required placeholder="30.00"></div>
+          <div class="field"><label for="newHours">Horas de elaboración</label><input id="newHours" name="hours" type="number" min="0.5" max="1000" step="0.5" required placeholder="2"></div>
+          <div class="field"><label for="newArtisan">Nombre de la artesana</label><input id="newArtisan" name="artisan" required maxlength="70" value="Rosa Bertha"></div>
+          <div class="field"><label for="newOrigin">Lugar</label><input id="newOrigin" name="origin" required maxlength="70" value="Monsefú, Lambayeque"></div>
+          <div class="field"><label for="newTechnique">Técnica</label><input id="newTechnique" name="technique" required maxlength="70" placeholder="Ejemplo: coiling"></div>
+          <div class="field"><label for="newCategory">Categoría</label><select id="newCategory" name="category"><option>Accesorios</option><option>Hogar</option><option>Textiles</option><option>Decoración</option><option>Otro</option></select></div>
+          <div class="field field-wide"><label for="newDescription">Materiales e historia de la pieza</label><textarea id="newDescription" name="description" required maxlength="360" placeholder="Cuéntale a tu clienta cómo se hace, qué materiales usas o qué significa su diseño."></textarea></div>
+          <div class="field field-wide"><label for="newPhoto">Foto de tu pieza (opcional)</label><input id="newPhoto" name="photo" type="file" accept="image/*"><small>La foto se reduce para guardarse en este dispositivo. Máximo 8 MB.</small></div>
+        </div>
+        <p class="form-note">Tu pieza aparecerá en el catálogo de este navegador. Los pedidos también quedarán guardados aquí.</p>
+        <div class="dialog-actions">
+          <button class="button button-primary" type="submit">Publicar y guardar pieza</button>
+          <button class="button button-secondary" type="button" data-close="productDialog">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="ordersDialog" aria-labelledby="ordersTitle">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <div><h2 id="ordersTitle">Mis pedidos</h2><p>Consulta tus pedidos guardados en este navegador.</p></div>
+        <button class="close-button" type="button" data-close="ordersDialog">Cerrar ventana</button>
+      </div>
+      <div id="ordersList" aria-live="polite"></div>
+      <p class="privacy-note">Tus pedidos y piezas se guardan en este navegador. No se guarda información de tarjetas ni direcciones.</p>
+      <div class="dialog-actions">
+        <button id="backupButton" class="button button-secondary" type="button">Descargar copia de mis datos</button>
+        <button class="button button-primary" type="button" data-close="ordersDialog">Volver a la página</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script>
+    (() => {
+      "use strict";
+      const STORAGE_KEY = "rosabel.catalogo-y-pedidos.v1";
+      const DEFAULT_PRODUCTS = [{
+        id: "arete-coiling-rosa",
+        title: "Arete de coiling",
+        price: 30,
+        hours: 2,
+        artisan: "Rosa Bertha",
+        origin: "Monsefú, Lambayeque",
+        technique: "Coiling",
+        category: "Accesorios",
+        description: "Una pieza de bisutería hecha a mano con la técnica de coiling. El tiempo y el cuidado de su elaboración forman parte de su valor.",
+        image: "",
+        createdAt: ""
+      }];
+      let state = loadState();
+      let selectedProductId = null;
+      let toastTimer = 0;
+      let activeCategory = "Todas";
+
+      const productGrid = document.getElementById("productGrid");
+      const categoryList = document.getElementById("categoryList");
+      const searchInput = document.getElementById("searchInput");
+      const orderDialog = document.getElementById("orderDialog");
+      const productDialog = document.getElementById("productDialog");
+      const ordersDialog = document.getElementById("ordersDialog");
+      const orderForm = document.getElementById("orderForm");
+      const productForm = document.getElementById("productForm");
+
+      function loadState() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+          if (saved && Array.isArray(saved.products) && Array.isArray(saved.orders)) {
+            return { products: saved.products, orders: saved.orders };
+          }
+        } catch (error) {
+          console.warn("No se pudieron leer los datos guardados de Rosabel.", error);
+        }
+        return { products: DEFAULT_PRODUCTS.map((item) => ({ ...item })), orders: [] };
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          return true;
+        } catch (error) {
+          console.error("No se pudieron guardar los datos de Rosabel.", error);
+          return false;
+        }
+      }
+
+      function idFor(prefix) {
+        const random = globalThis.crypto && typeof globalThis.crypto.randomUUID === "function"
+          ? globalThis.crypto.randomUUID()
+          : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+        return `${prefix}-${random}`;
+      }
+
+      function money(value) {
+        return new Intl.NumberFormat("es-PE", { style: "currency", currency: "PEN", minimumFractionDigits: 2 }).format(Number(value) || 0);
+      }
+
+      function showToast(message, kind = "success") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.dataset.kind = kind === "error" ? "error" : "success";
+        toast.hidden = false;
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => { toast.hidden = true; }, 5200);
+      }
+
+      function productArtwork() {
+        const wrapper = document.createElement("div");
+        wrapper.className = "product-art";
+        wrapper.innerHTML = '<svg viewBox="0 0 320 210" role="img" aria-label="Ilustración de dos aretes tejidos en espiral"><path d="M110 38c0 24 18 25 18 43" fill="none" stroke="#7b4b36" stroke-width="5" stroke-linecap="round"/><path d="M210 38c0 24-18 25-18 43" fill="none" stroke="#7b4b36" stroke-width="5" stroke-linecap="round"/><circle cx="110" cy="31" r="10" fill="none" stroke="#7b4b36" stroke-width="5"/><circle cx="210" cy="31" r="10" fill="none" stroke="#7b4b36" stroke-width="5"/><path d="M128 82c-22 4-36 24-35 47 1 23 19 41 41 41 22 0 39-16 39-37 0-17-12-30-28-30-13 0-22 10-22 22 0 10 8 18 18 18 8 0 13-5 13-12" fill="none" stroke="#b96843" stroke-width="9" stroke-linecap="round"/><path d="M192 82c22 4 36 24 35 47-1 23-19 41-41 41-22 0-39-16-39-37 0-17 12-30 28-30 13 0 22 10 22 22 0 10-8 18-18 18-8 0-13-5-13-12" fill="none" stroke="#355842" stroke-width="9" stroke-linecap="round"/><circle cx="110" cy="31" r="3" fill="#f1d485"/><circle cx="210" cy="31" r="3" fill="#f1d485"/></svg>';
+        return wrapper;
+      }
+
+      function renderCategories() {
+        categoryList.replaceChildren();
+        const names = ["Todas", ...new Set(state.products.map((product) => product.category).filter(Boolean))];
+        if (!names.includes(activeCategory)) activeCategory = "Todas";
+        names.forEach((name) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "category-chip";
+          button.textContent = name;
+          button.setAttribute("aria-pressed", String(activeCategory === name));
+          button.addEventListener("click", () => {
+            activeCategory = name;
+            renderCategories();
+            renderProducts();
+          });
+          categoryList.append(button);
+        });
+      }
+
+      function renderProducts() {
+        productGrid.replaceChildren();
+        const query = searchInput.value.trim().toLocaleLowerCase("es");
+        const filtered = state.products.filter((product) => {
+          const matchesCategory = activeCategory === "Todas" || product.category === activeCategory;
+          const words = [product.title, product.artisan, product.origin, product.technique, product.description, product.category].join(" ").toLocaleLowerCase("es");
+          return matchesCategory && (!query || words.includes(query));
+        });
+
+        if (!filtered.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.textContent = "No encontramos esa pieza. Prueba con otra palabra o elige otra categoría.";
+          productGrid.append(empty);
+          return;
+        }
+
+        filtered.forEach((product) => {
+          const card = document.createElement("article");
+          card.className = "product-card";
+          if (product.image) {
+            const image = document.createElement("img");
+            image.className = "product-photo";
+            image.src = product.image;
+            image.alt = `Foto de ${product.title}, hecha por ${product.artisan}`;
+            image.loading = "lazy";
+            card.append(image);
+          } else {
+            card.append(productArtwork());
+          }
+
+          const body = document.createElement("div");
+          body.className = "product-body";
+          const category = document.createElement("span");
+          category.className = "product-category";
+          category.textContent = product.category || "Artesanía";
+          const title = document.createElement("h3");
+          title.textContent = product.title;
+          const maker = document.createElement("p");
+          maker.className = "made-by";
+          maker.textContent = `Hecho por ${product.artisan} · ${product.origin}`;
+          const description = document.createElement("p");
+          description.className = "product-description";
+          description.textContent = product.description;
+          const facts = document.createElement("div");
+          facts.className = "craft-facts";
+          const timeFact = document.createElement("span");
+          timeFact.className = "craft-fact";
+          timeFact.textContent = `${product.hours} ${Number(product.hours) === 1 ? "hora" : "horas"} de trabajo`;
+          const techniqueFact = document.createElement("span");
+          techniqueFact.className = "craft-fact";
+          techniqueFact.textContent = `Técnica: ${product.technique}`;
+          facts.append(timeFact, techniqueFact);
+          const bottom = document.createElement("div");
+          bottom.className = "product-bottom";
+          const price = document.createElement("strong");
+          price.className = "product-price";
+          price.textContent = money(product.price);
+          bottom.append(price);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "button button-warm";
+          button.textContent = `Pedir ${product.title}`;
+          button.setAttribute("aria-label", `Pedir ${product.title} de ${money(product.price)}`);
+          button.addEventListener("click", () => openOrder(product.id));
+          body.append(category, title, maker, description, facts, bottom, button);
+          card.append(body);
+          productGrid.append(card);
+        });
+      }
+
+      function openOrder(productId) {
+        const product = state.products.find((item) => item.id === productId);
+        if (!product) {
+          showToast("No encontramos esa pieza. Actualiza el catálogo e inténtalo de nuevo.", "error");
+          return;
+        }
+        selectedProductId = product.id;
+        orderForm.reset();
+        document.getElementById("orderFormView").hidden = false;
+        document.getElementById("orderConfirmation").hidden = true;
+        document.getElementById("orderTitle").textContent = "Pide esta pieza";
+        document.getElementById("orderProductName").textContent = `${product.title} · ${product.artisan}`;
+        document.getElementById("orderProductInfo").textContent = `${product.hours} ${Number(product.hours) === 1 ? "hora" : "horas"} de trabajo · Técnica ${product.technique} · ${product.origin}`;
+        updateOrderTotal();
+        orderDialog.showModal();
+        document.getElementById("buyerName").focus();
+      }
+
+      function updateOrderTotal() {
+        const product = state.products.find((item) => item.id === selectedProductId);
+        if (!product) return;
+        const quantity = Number(document.getElementById("orderQuantity").value) || 1;
+        document.getElementById("orderSummaryText").textContent = `${quantity} ${quantity === 1 ? "pieza" : "piezas"} · ${money(product.price)} cada una`;
+        document.getElementById("orderTotal").textContent = money(product.price * quantity);
+      }
+
+      function whatsappUrl(order) {
+        const phoneNote = order.buyerPhone ? ` Mi teléfono para coordinar es ${order.buyerPhone}.` : "";
+        const message = `Hola, soy ${order.buyerName}. Quisiera consultar disponibilidad, entrega y forma de pago de ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de “${order.productTitle}”, hecha por ${order.artisan}. Total indicado: ${money(order.total)}.${phoneNote}`;
+        return `https://wa.me/?text=${encodeURIComponent(message)}`;
+      }
+
+      function createOrderCard(order) {
+        const article = document.createElement("article");
+        article.className = "saved-order";
+        const status = document.createElement("span");
+        status.className = "status-label";
+        status.textContent = "Pendiente de coordinar";
+        const title = document.createElement("h3");
+        title.textContent = order.productTitle;
+        const detail = document.createElement("p");
+        const date = order.createdAt ? new Intl.DateTimeFormat("es-PE", { dateStyle: "medium", timeStyle: "short" }).format(new Date(order.createdAt)) : "Fecha no disponible";
+        detail.textContent = `${date} · ${order.quantity} ${Number(order.quantity) === 1 ? "pieza" : "piezas"} · ${money(order.total)} · Pedido ${order.id.slice(-6).toUpperCase()}`;
+        const share = document.createElement("a");
+        share.className = "button button-secondary button-small";
+        share.href = whatsappUrl(order);
+        share.target = "_blank";
+        share.rel = "noopener noreferrer";
+        share.textContent = "Compartir este pedido por WhatsApp";
+        article.append(status, title, detail, share);
+        return article;
+      }
+
+      function renderOrders() {
+        const list = document.getElementById("ordersList");
+        list.replaceChildren();
+        if (!state.orders.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.textContent = "Aún no tienes pedidos. Elige una pieza del catálogo para empezar.";
+          list.append(empty);
+        } else {
+          [...state.orders].reverse().forEach((order) => list.append(createOrderCard(order)));
+        }
+        document.getElementById("ordersButton").textContent = `Mis pedidos (${state.orders.length})`;
+      }
+
+      function submitOrder(event) {
+        event.preventDefault();
+        const product = state.products.find((item) => item.id === selectedProductId);
+        if (!product) return showToast("No encontramos la pieza para guardar el pedido.", "error");
+        const buyerName = document.getElementById("buyerName").value.trim();
+        const buyerPhone = document.getElementById("buyerPhone").value.trim();
+        const quantity = Number(document.getElementById("orderQuantity").value) || 1;
+        if (!buyerName) {
+          document.getElementById("buyerName").focus();
+          return showToast("Escribe tu nombre para guardar el pedido.", "error");
+        }
+
+        const order = {
+          id: idFor("pedido"),
+          productId: product.id,
+          productTitle: product.title,
+          artisan: product.artisan,
+          unitPrice: Number(product.price),
+          quantity,
+          total: Number(product.price) * quantity,
+          buyerName,
+          buyerPhone,
+          createdAt: new Date().toISOString()
+        };
+        state.orders.push(order);
+        if (!saveState()) {
+          state.orders.pop();
+          return showToast("No se pudo guardar el pedido en este navegador. Descarga una copia de tus datos o inténtalo otra vez.", "error");
+        }
+
+        document.getElementById("orderFormView").hidden = true;
+        document.getElementById("orderConfirmation").hidden = false;
+        document.getElementById("confirmationOrderId").textContent = `Pedido ${order.id.slice(-6).toUpperCase()} · guardado en este dispositivo`;
+        document.getElementById("confirmationDetails").textContent = `${order.buyerName}, guardamos ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de ${order.productTitle} por ${money(order.total)}. Para coordinarlo, puedes compartir el pedido por WhatsApp.`;
+        const shareLink = document.getElementById("shareOrderLink");
+        shareLink.href = whatsappUrl(order);
+        renderOrders();
+        showToast("Pedido guardado en este navegador.");
+      }
+
+      function resizeImage(file) {
+        return new Promise((resolve, reject) => {
+          if (!file) return resolve("");
+          if (!file.type.startsWith("image/")) return reject(new Error("El archivo elegido no es una imagen."));
+          if (file.size > 8 * 1024 * 1024) return reject(new Error("La foto pesa más de 8 MB. Elige una foto más pequeña."));
+          const reader = new FileReader();
+          reader.onerror = () => reject(new Error("No pudimos leer esa foto. Prueba con otra."));
+          reader.onload = () => {
+            const image = new Image();
+            image.onerror = () => reject(new Error("No pudimos abrir esa foto. Prueba con otra."));
+            image.onload = () => {
+              const maxSide = 900;
+              const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+              const canvas = document.createElement("canvas");
+              canvas.width = Math.max(1, Math.round(image.width * scale));
+              canvas.height = Math.max(1, Math.round(image.height * scale));
+              const context = canvas.getContext("2d");
+              if (!context) return reject(new Error("No pudimos preparar esa foto."));
+              context.drawImage(image, 0, 0, canvas.width, canvas.height);
+              resolve(canvas.toDataURL("image/webp", 0.78));
+            };
+            image.src = String(reader.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function submitProduct(event) {
+        event.preventDefault();
+        const submitButton = productForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = "Guardando pieza…";
+        const form = new FormData(productForm);
+        try {
+          const image = await resizeImage(document.getElementById("newPhoto").files[0]);
+          const product = {
+            id: idFor("pieza"),
+            title: String(form.get("title")).trim(),
+            price: Number(form.get("price")),
+            hours: Number(form.get("hours")),
+            artisan: String(form.get("artisan")).trim(),
+            origin: String(form.get("origin")).trim(),
+            technique: String(form.get("technique")).trim(),
+            category: String(form.get("category")),
+            description: String(form.get("description")).trim(),
+            image,
+            createdAt: new Date().toISOString()
+          };
+          state.products.push(product);
+          if (!saveState()) {
+            state.products.pop();
+            showToast("No se pudo guardar la pieza. Prueba una foto más pequeña o descarga una copia de tus datos.", "error");
+            return;
+          }
+          productForm.reset();
+          document.getElementById("newArtisan").value = "Rosa Bertha";
+          document.getElementById("newOrigin").value = "Monsefú, Lambayeque";
+          activeCategory = "Todas";
+          renderCategories();
+          renderProducts();
+          productDialog.close();
+          showToast("Pieza publicada y guardada en este navegador.");
+          document.getElementById("catalogo").scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (error) {
+          showToast(error instanceof Error ? error.message : "No se pudo guardar la pieza.", "error");
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Publicar y guardar pieza";
+        }
+      }
+
+      function downloadBackup() {
+        try {
+          const backup = { app: "Rosabel", exportedAt: new Date().toISOString(), products: state.products, orders: state.orders };
+          const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `rosabel-copia-${new Date().toISOString().slice(0, 10)}.json`;
+          document.body.append(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+          showToast("Copia de pedidos y piezas descargada.");
+        } catch (error) {
+          showToast("No se pudo descargar la copia. Inténtalo de nuevo.", "error");
+        }
+      }
+
+      document.getElementById("ordersButton").addEventListener("click", () => {
+        renderOrders();
+        ordersDialog.showModal();
+      });
+      document.getElementById("featuredOrderButton").addEventListener("click", () => {
+        const featured = state.products.find((item) => item.id === "arete-coiling-rosa") || state.products[0];
+        if (featured) openOrder(featured.id);
+        else document.getElementById("catalogo").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      document.getElementById("addProductButton").addEventListener("click", () => {
+        productForm.reset();
+        document.getElementById("newArtisan").value = "Rosa Bertha";
+        document.getElementById("newOrigin").value = "Monsefú, Lambayeque";
+        productDialog.showModal();
+        document.getElementById("newTitle").focus();
+      });
+      document.getElementById("orderQuantity").addEventListener("change", updateOrderTotal);
+      document.getElementById("viewOrdersButton").addEventListener("click", () => {
+        orderDialog.close();
+        renderOrders();
+        ordersDialog.showModal();
+      });
+      document.getElementById("backupButton").addEventListener("click", downloadBackup);
+      searchInput.addEventListener("input", renderProducts);
+      orderForm.addEventListener("submit", submitOrder);
+      productForm.addEventListener("submit", submitProduct);
+      document.querySelectorAll("[data-close]").forEach((button) => {
+        button.addEventListener("click", () => document.getElementById(button.dataset.close).close());
+      });
+      [orderDialog, productDialog, ordersDialog].forEach((dialog) => {
+        dialog.addEventListener("click", (event) => {
+          if (event.target === dialog) dialog.close();
+        });
+      });
+
+      renderCategories();
+      renderProducts();
+      renderOrders();
+    })();
+  </script>
+</body>
+</html>
