@@ -284,9 +284,9 @@
       <div>
         <p class="eyebrow">Monsefú, Lambayeque · tradición viva</p>
         <h1 id="hero-title">La historia de Monsefú vive en las manos que crean.</h1>
-        <p class="hero-copy">Conoce a Rosa Bertha Llontop Lluen, descubre la técnica detrás de sus aretes y valora el tiempo y el talento que hay en cada pieza.</p>
+        <p class="hero-copy">Conoce el trabajo de Rosa Bertha Llontop Lluen y descubre la dedicación, creatividad y tradición que dan vida a sus piezas artesanales.</p>
         <div class="hero-actions">
-          <button id="featuredOrderButton" class="button button-primary" type="button">Ver diseños y fotos · Aretes de coiling</button>
+          <button id="featuredOrderButton" class="button button-primary" type="button">Ver pieza destacada</button>
           <a class="button button-secondary" href="#catalogo">Explorar todas las piezas</a>
         </div>
       </div>
@@ -597,8 +597,7 @@
           renderProducts();
           const featured = productsForRosa().find((item) => item.id === "arete-coiling-rosa") || productsForRosa()[0];
           if (featured) {
-            const hasVideo = productMedia(featured, variantsFor(featured)[0]).some((media) => media.type === "video");
-            document.getElementById("featuredOrderButton").textContent = `Ver diseños y ${hasVideo ? "video" : "fotos"} · ${featured.title}`;
+            document.getElementById("featuredOrderButton").textContent = "Ver pieza destacada";
           }
         },
         getProducts: productsForRosa,
@@ -720,9 +719,8 @@
           const button = document.createElement("button");
           button.type = "button";
           button.className = "button button-warm";
-          const hasVideo = productMedia(product, variantsFor(product)[0]).some((media) => media.type === "video");
-          button.textContent = hasVideo ? "Ver diseños, fotos y video" : "Ver diseños y fotos";
-          button.setAttribute("aria-label", `${hasVideo ? "Ver diseños, fotos y video" : "Ver diseños y fotos"} de ${product.title}`);
+          button.textContent = "Ver detalles";
+          button.setAttribute("aria-label", `Ver detalles de ${product.title}`);
           button.addEventListener("click", () => openProductDetail(product.id));
           body.append(category, title, maker, description, facts, bottom, button);
           card.append(body);
