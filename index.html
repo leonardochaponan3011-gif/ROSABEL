@@ -125,6 +125,39 @@
     .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
     .product-price { color: var(--ink); font-size: 1.5rem; font-weight: 850; }
     .product-card .button { width: 100%; }
+    .product-card .button + .button { margin-top: 9px; }
+    .detail-dialog { width: min(1040px, calc(100% - 28px)); }
+    .detail-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); gap: 28px; }
+    .gallery { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 13px; align-items: start; }
+    .gallery-thumbs { display: flex; flex-direction: column; gap: 9px; max-height: min(66vh, 590px); overflow: auto; padding: 2px; }
+    .gallery-thumb { position: relative; display: grid; width: 72px; height: 72px; place-items: center; overflow: hidden; padding: 3px; border: 2px solid var(--line); border-radius: 10px; background: white; }
+    .gallery-thumb[aria-pressed="true"] { border-color: #2867d6; box-shadow: 0 0 0 3px #2867d633; }
+    .gallery-thumb img { width: 100%; height: 100%; border-radius: 6px; object-fit: cover; }
+    .gallery-thumb-video { color: var(--navy); font-size: 1.7rem; }
+    .gallery-stage { display: grid; min-height: 390px; height: min(62vh, 590px); place-items: center; overflow: hidden; border-radius: 16px; background: #f4f2ef; }
+    .gallery-stage img, .gallery-stage video { display: block; max-width: 100%; max-height: 100%; width: 100%; height: 100%; object-fit: contain; background: #f4f2ef; }
+    .detail-info { align-self: center; }
+    .detail-info h2 { margin: 0 0 7px; font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.15; }
+    .detail-maker { margin-bottom: 15px; color: var(--muted); font-weight: 650; }
+    .detail-price { margin: 13px 0; color: var(--navy); font-size: 1.8rem; font-weight: 850; }
+    .variant-heading { display: block; margin: 19px 0 9px; font-weight: 800; }
+    .variant-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .variant-option { display: inline-flex; min-height: 48px; align-items: center; gap: 9px; padding: 7px 12px; border: 1.5px solid #aaa093; border-radius: 12px; color: var(--ink); background: white; font-weight: 750; }
+    .variant-option[aria-pressed="true"] { border-color: var(--navy); background: #edf4ff; box-shadow: 0 0 0 2px #102f74; }
+    .variant-swatch { width: 23px; height: 23px; flex: 0 0 auto; border: 1px solid rgb(0 0 0 / 24%); border-radius: 50%; background: var(--swatch, #c99b35); }
+    .gallery-empty { color: var(--muted); text-align: center; }
+    .admin-dialog { width: min(860px, calc(100% - 28px)); }
+    .admin-intro { margin: -7px 0 19px; color: var(--muted); }
+    .admin-products { display: grid; gap: 10px; margin: 18px 0; }
+    .admin-panel-actions { margin-top: 0; align-items: center; justify-content: space-between; }
+    .admin-panel-note { margin: 0; }
+    .admin-product { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    .admin-product p { margin: 0; font-weight: 750; }
+    .admin-product-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .admin-variant-row { display: grid; grid-template-columns: 1.2fr 76px 110px minmax(125px, 1fr) 44px; align-items: end; gap: 9px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fffaf4; }
+    .admin-variant-row .field label { font-size: .88rem; }
+    .admin-variant-row input { min-height: 44px; }
+    .variant-remove { min-height: 44px; border: 1px solid #aa596a; border-radius: 9px; color: #76283d; background: #fff4f6; font-size: 1.2rem; }
     .empty-state { grid-column: 1 / -1; padding: 28px; border: 1px dashed #aaa093; border-radius: var(--radius); color: var(--muted); background: var(--surface); text-align: center; }
 
     .story { position: relative; display: grid; grid-template-columns: .72fr 1.28fr; gap: 24px; overflow: hidden; padding: clamp(24px, 5vw, 46px); border: 5px solid var(--cyan); border-radius: 28px; color: #fff; background: radial-gradient(circle at 100% 0%, rgb(255 0 127 / 25%), transparent 260px), var(--navy); box-shadow: var(--shadow); }
@@ -182,6 +215,8 @@
       .hero { grid-template-columns: 1fr 1fr; gap: 25px; }
       .artisan-photo { height: 340px; }
       .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-layout { grid-template-columns: 1fr; }
+      .detail-info { align-self: auto; }
     }
     @media (max-width: 600px) {
       :root { font-size: 17px; }
@@ -189,7 +224,7 @@
       .topbar-inner { min-height: auto; gap: 8px; }
       .brand { font-size: 1.16rem; }
       .brand-mark { width: 38px; height: 38px; }
-      #ordersButton { min-height: 44px; padding: 8px 10px; font-size: .88rem; }
+      #ordersButton, #adminButton { min-height: 44px; padding: 8px 10px; font-size: .88rem; }
       .nav { gap: 2px; }
       .nav a { font-size: .84rem; }
       .hero { grid-template-columns: 1fr; gap: 24px; margin-top: 14px; padding: 25px 20px 30px; }
@@ -208,6 +243,14 @@
       .product-grid { grid-template-columns: 1fr; }
       .product-art, .product-photo { height: 300px; }
       .product-featured .product-photo { height: 340px; }
+      .gallery { grid-template-columns: 1fr; gap: 9px; }
+      .gallery-thumbs { order: 2; flex-direction: row; max-height: none; overflow-x: auto; }
+      .gallery-thumb { flex: 0 0 66px; width: 66px; height: 66px; }
+      .gallery-stage { min-height: 280px; height: min(78vw, 390px); }
+      .detail-layout { gap: 19px; }
+      .admin-variant-row { grid-template-columns: 1fr 74px 100px 42px; }
+      .admin-variant-photo { grid-column: 1 / 4; }
+      .admin-product { align-items: flex-start; flex-direction: column; }
       .story { grid-template-columns: 1fr; gap: 17px; }
       .form-grid { grid-template-columns: 1fr; }
       .field-wide { grid-column: auto; }
@@ -229,9 +272,10 @@
       </a>
       <nav class="nav" aria-label="Navegación principal">
         <a href="#catalogo">Comprar</a>
-        <a href="#historia">Conocer a las artesanas</a>
+        <a href="#historia">Conocer a Rosa</a>
       </nav>
       <button id="ordersButton" class="button button-secondary button-small" type="button">Mis pedidos (0)</button>
+      <button id="adminButton" class="button button-warm button-small" type="button" hidden>Acceso de Rosa</button>
     </div>
   </header>
 
@@ -242,7 +286,7 @@
         <h1 id="hero-title">La historia de Monsefú vive en las manos que crean.</h1>
         <p class="hero-copy">Conoce a Rosa Bertha Llontop Lluen, descubre la técnica detrás de sus aretes y valora el tiempo y el talento que hay en cada pieza.</p>
         <div class="hero-actions">
-          <button id="featuredOrderButton" class="button button-primary" type="button">Pedir aretes de coiling · S/ 30</button>
+          <button id="featuredOrderButton" class="button button-primary" type="button">Ver diseños y fotos · Aretes de coiling</button>
           <a class="button button-secondary" href="#catalogo">Explorar todas las piezas</a>
         </div>
       </div>
@@ -358,6 +402,82 @@
     </div>
   </dialog>
 
+  <dialog id="productDialog" class="detail-dialog" aria-labelledby="detailTitle">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <div><p id="detailCategory" class="product-category"></p><h2 id="detailTitle">Ver pieza artesanal</h2></div>
+        <button class="close-button" type="button" data-close="productDialog">Cerrar ventana</button>
+      </div>
+      <div class="detail-layout">
+        <div id="productGallery" class="gallery" aria-label="Fotos y video del producto">
+          <div id="galleryThumbs" class="gallery-thumbs" aria-label="Elegir foto o video"></div>
+          <div id="galleryStage" class="gallery-stage" aria-live="polite"></div>
+        </div>
+        <section class="detail-info" aria-label="Detalles de la pieza">
+          <p id="detailMaker" class="detail-maker"></p>
+          <p id="detailDescription" class="product-description"></p>
+          <div class="craft-facts"><span id="detailHours" class="craft-fact"></span><span id="detailTechnique" class="craft-fact"></span></div>
+          <span class="variant-heading">Elige un diseño o color</span>
+          <div id="variantList" class="variant-list" role="group" aria-label="Diseños y colores disponibles"></div>
+          <p id="detailPrice" class="detail-price"></p>
+          <button id="detailOrderButton" class="button button-primary" type="button">Pedir este diseño</button>
+          <p class="form-note">Al pedir, podrás revisar los detalles y coordinar por WhatsApp con Rosa.</p>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="adminDialog" class="admin-dialog" aria-labelledby="adminTitle">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <div><h2 id="adminTitle">Área privada de Rosa</h2><p>Administra las piezas de tu tienda.</p></div>
+        <button class="close-button" type="button" data-close="adminDialog">Cerrar ventana</button>
+      </div>
+      <div id="adminLoginView">
+        <p class="admin-intro">Escribe el correo de Rosa. Le enviaremos un enlace seguro para publicar, editar o retirar sus productos.</p>
+        <form id="adminLoginForm" class="form-grid">
+          <div class="field field-wide"><label for="adminEmail">Correo de Rosa</label><input id="adminEmail" type="email" autocomplete="username" required></div>
+          <p id="adminLoginMessage" class="form-note field-wide" role="status"></p>
+          <button class="button button-primary field-wide" type="submit">Enviar enlace de acceso</button>
+        </form>
+      </div>
+      <div id="adminPanelView" hidden>
+        <div class="dialog-actions admin-panel-actions">
+          <p class="admin-intro admin-panel-note">Solo la cuenta autorizada puede guardar cambios. Fotos y videos quedan disponibles para todas las visitas.</p>
+          <button id="adminSignOutButton" class="button button-secondary button-small" type="button">Cerrar sesión</button>
+        </div>
+        <div id="adminProducts" class="admin-products" aria-live="polite"></div>
+        <form id="productAdminForm">
+          <input id="editProductId" type="hidden">
+          <h3 id="productFormHeading">Publicar una pieza</h3>
+          <div class="form-grid">
+            <div class="field"><label for="productTitleInput">Nombre de la pieza</label><input id="productTitleInput" name="title" required maxlength="100" placeholder="Ej. Aretes espiral verde"></div>
+            <div class="field"><label for="productCategoryInput">Categoría</label><input id="productCategoryInput" name="category" required maxlength="60" placeholder="Ej. Accesorios"></div>
+            <div class="field"><label for="productPriceInput">Precio base (S/)</label><input id="productPriceInput" name="price" type="number" min="0.01" step="0.01" required placeholder="30"></div>
+            <div class="field"><label for="productHoursInput">Horas de trabajo</label><input id="productHoursInput" name="hours" type="number" min="0.1" step="0.1" required placeholder="2"></div>
+            <div class="field"><label for="productTechniqueInput">Técnica</label><input id="productTechniqueInput" name="technique" required maxlength="100" placeholder="Ej. Coiling"></div>
+            <div class="field"><label for="productOriginInput">Lugar</label><input id="productOriginInput" name="origin" required maxlength="100" value="Monsefú, Lambayeque"></div>
+            <div class="field field-wide"><label for="productDescriptionInput">Historia y detalles de la pieza</label><textarea id="productDescriptionInput" name="description" required maxlength="1200" placeholder="Cuéntale a la clienta qué hace especial esta pieza y cuánto cuidado requiere."></textarea></div>
+            <div class="field field-wide"><label for="productImagesInput">Fotos del producto</label><input id="productImagesInput" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Hasta 8 fotos JPG, PNG o WebP; máximo 8 MB por foto. La primera es la foto principal.</small></div>
+            <div class="field field-wide"><label for="productVideoInput">Video de elaboración (opcional)</label><input id="productVideoInput" name="video" type="file" accept="video/mp4,video/webm"><small>Un video MP4 o WebM de hasta 60 segundos y 25 MB.</small></div>
+            <div class="field field-wide">
+              <label>Diseños y colores disponibles</label>
+              <p class="form-note">Añade cada modelo. Puedes poner una foto distinta para cada diseño; el precio puede cambiar o quedar en blanco para usar el precio base.</p>
+              <div id="adminVariantRows" class="admin-products"></div>
+              <button id="addVariantButton" class="button button-secondary button-small" type="button">+ Añadir diseño o color</button>
+            </div>
+            <div id="existingMediaList" class="field field-wide" aria-live="polite"></div>
+          </div>
+          <p id="productSaveMessage" class="form-note" role="status"></p>
+          <div class="dialog-actions">
+            <button id="productSaveButton" class="button button-primary" type="submit">Publicar pieza</button>
+            <button id="cancelEditButton" class="button button-secondary" type="button" hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="ordersDialog" aria-labelledby="ordersTitle">
     <div class="dialog-inner">
       <div class="dialog-header">
@@ -391,10 +511,15 @@
         category: "Accesorios",
         description: "Una pieza de bisutería hecha a mano con la técnica de coiling. Cada vuelta requiere paciencia y cuidado; su elaboración toma dos horas.",
         image: "arete-coiling.webp",
+        media: [{ id: "foto-principal", type: "image", url: "arete-coiling.webp", alt: "Aretes dorados hechos con técnica coiling y piedras verdes" }],
+        variants: [{ id: "diseno-verde-dorado", name: "Diseño verde y dorado", color: "#4a741f", price: 30, media: [] }],
         createdAt: ""
       }];
       let state = loadState();
+      let cloudProducts = null;
       let selectedProductId = null;
+      let selectedDetailProductId = null;
+      let selectedVariantId = null;
       let toastTimer = 0;
       let activeCategory = "Todas";
 
@@ -403,6 +528,7 @@
       const searchInput = document.getElementById("searchInput");
       const orderDialog = document.getElementById("orderDialog");
       const ordersDialog = document.getElementById("ordersDialog");
+      const productDialog = document.getElementById("productDialog");
       const orderForm = document.getElementById("orderForm");
 
       function loadState() {
@@ -433,8 +559,51 @@
       }
 
       function productsForRosa() {
-        return state.products.filter((product) => product.id === "arete-coiling-rosa" || product.artisan === "Rosa Bertha Llontop Lluen");
+        const products = cloudProducts === null ? state.products : cloudProducts;
+        return products.filter((product) => product.id === "arete-coiling-rosa" || product.artisan === "Rosa Bertha Llontop Lluen");
       }
+
+      function variantsFor(product) {
+        return Array.isArray(product.variants) && product.variants.length
+          ? product.variants
+          : [{ id: "diseno-unico", name: "Diseño disponible", color: "", price: null, media: [] }];
+      }
+
+      function variantFor(product, variantId) {
+        return variantsFor(product).find((variant) => variant.id === variantId) || variantsFor(product)[0];
+      }
+
+      function priceFor(product, variant) {
+        return Number(variant && variant.price) > 0 ? Number(variant.price) : Number(product.price) || 0;
+      }
+
+      function productMedia(product, variant) {
+        const baseMedia = Array.isArray(product.media) ? product.media : [];
+        const variantMedia = variant && Array.isArray(variant.media) ? variant.media : [];
+        const combined = [...baseMedia, ...variantMedia];
+        if (!combined.some((media) => media.type === "image") && product.image) {
+          combined.unshift({ type: "image", url: product.image, alt: `Foto de ${product.title}` });
+        }
+        return combined;
+      }
+
+      window.rosabelCatalog = {
+        setCloudProducts(products) {
+          cloudProducts = [
+            ...DEFAULT_PRODUCTS.filter((item) => !products.some((remote) => remote.id === item.id)),
+            ...products
+          ];
+          renderCategories();
+          renderProducts();
+          const featured = productsForRosa().find((item) => item.id === "arete-coiling-rosa") || productsForRosa()[0];
+          if (featured) {
+            const hasVideo = productMedia(featured, variantsFor(featured)[0]).some((media) => media.type === "video");
+            document.getElementById("featuredOrderButton").textContent = `Ver diseños y ${hasVideo ? "video" : "fotos"} · ${featured.title}`;
+          }
+        },
+        getProducts: productsForRosa,
+        renderProducts
+      };
 
       function idFor(prefix) {
         const random = globalThis.crypto && typeof globalThis.crypto.randomUUID === "function"
@@ -487,7 +656,8 @@
         const query = searchInput.value.trim().toLocaleLowerCase("es");
         const filtered = productsForRosa().filter((product) => {
           const matchesCategory = activeCategory === "Todas" || product.category === activeCategory;
-          const words = [product.title, product.artisan, product.origin, product.technique, product.description, product.category].join(" ").toLocaleLowerCase("es");
+          const variantNames = variantsFor(product).map((variant) => variant.name).join(" ");
+          const words = [product.title, product.artisan, product.origin, product.technique, product.description, product.category, variantNames].join(" ").toLocaleLowerCase("es");
           return matchesCategory && (!query || words.includes(query));
         });
 
@@ -503,10 +673,12 @@
           const card = document.createElement("article");
           card.className = "product-card";
           if (product.id === "arete-coiling-rosa") card.classList.add("product-featured");
-          if (product.image) {
+          const firstImage = productMedia(product, variantsFor(product)[0]).find((media) => media.type === "image");
+          const cardImage = firstImage ? firstImage.url : product.image;
+          if (cardImage) {
             const image = document.createElement("img");
             image.className = "product-photo";
-            image.src = product.image;
+            image.src = cardImage;
             image.alt = product.id === "arete-coiling-rosa"
               ? "Par de aretes colgantes con motivos en espiral y detalles verdes"
               : `Foto de ${product.title}, hecha por ${product.artisan}`;
@@ -542,32 +714,142 @@
           bottom.className = "product-bottom";
           const price = document.createElement("strong");
           price.className = "product-price";
-          price.textContent = money(product.price);
+          const prices = variantsFor(product).map((variant) => priceFor(product, variant));
+          price.textContent = `Desde ${money(Math.min(...prices))}`;
           bottom.append(price);
           const button = document.createElement("button");
           button.type = "button";
           button.className = "button button-warm";
-          button.textContent = `Pedir ${product.title}`;
-          button.setAttribute("aria-label", `Pedir ${product.title} de ${money(product.price)}`);
-          button.addEventListener("click", () => openOrder(product.id));
+          const hasVideo = productMedia(product, variantsFor(product)[0]).some((media) => media.type === "video");
+          button.textContent = hasVideo ? "Ver diseños, fotos y video" : "Ver diseños y fotos";
+          button.setAttribute("aria-label", `${hasVideo ? "Ver diseños, fotos y video" : "Ver diseños y fotos"} de ${product.title}`);
+          button.addEventListener("click", () => openProductDetail(product.id));
           body.append(category, title, maker, description, facts, bottom, button);
           card.append(body);
           productGrid.append(card);
         });
       }
 
-      function openOrder(productId) {
+      function renderGallery(product, variant) {
+        const mediaList = productMedia(product, variant);
+        const thumbnails = document.getElementById("galleryThumbs");
+        const stage = document.getElementById("galleryStage");
+        thumbnails.replaceChildren();
+        stage.replaceChildren();
+        if (!mediaList.length) {
+          const empty = document.createElement("p");
+          empty.className = "gallery-empty";
+          empty.textContent = "Rosa añadirá fotos y video de esta pieza.";
+          stage.append(empty);
+          return;
+        }
+
+        function showMedia(index) {
+          const media = mediaList[index];
+          stage.replaceChildren();
+          thumbnails.querySelectorAll("button").forEach((item, itemIndex) => item.setAttribute("aria-pressed", String(itemIndex === index)));
+          if (media.type === "video") {
+            const video = document.createElement("video");
+            video.controls = true;
+            video.preload = "metadata";
+            video.playsInline = true;
+            video.setAttribute("aria-label", `Video de elaboración de ${product.title}`);
+            const source = document.createElement("source");
+            source.src = media.url;
+            source.type = media.contentType || "video/mp4";
+            video.append(source);
+            stage.append(video);
+            return;
+          }
+          const image = document.createElement("img");
+          image.src = media.url;
+          image.alt = media.alt || `Detalle de ${product.title}`;
+          stage.append(image);
+        }
+
+        mediaList.forEach((media, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "gallery-thumb";
+          button.setAttribute("aria-pressed", "false");
+          button.setAttribute("aria-label", media.type === "video" ? `Reproducir video de elaboración, elemento ${index + 1}` : `Ver foto ${index + 1} de ${mediaList.filter((item) => item.type === "image").length}`);
+          if (media.type === "video") {
+            button.classList.add("gallery-thumb-video");
+            button.textContent = "▶";
+          } else {
+            const image = document.createElement("img");
+            image.src = media.url;
+            image.alt = "";
+            image.loading = "lazy";
+            button.append(image);
+          }
+          button.addEventListener("click", () => showMedia(index));
+          thumbnails.append(button);
+        });
+        showMedia(0);
+      }
+
+      function renderVariantOptions(product) {
+        const list = document.getElementById("variantList");
+        list.replaceChildren();
+        variantsFor(product).forEach((variant) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "variant-option";
+          button.setAttribute("aria-pressed", String(variant.id === selectedVariantId));
+          if (variant.color && /^#[0-9a-f]{6}$/i.test(variant.color)) {
+            const swatch = document.createElement("span");
+            swatch.className = "variant-swatch";
+            swatch.style.setProperty("--swatch", variant.color);
+            swatch.setAttribute("aria-hidden", "true");
+            button.append(swatch);
+          }
+          const label = document.createElement("span");
+          label.textContent = variant.name || "Diseño disponible";
+          button.append(label);
+          button.addEventListener("click", () => {
+            selectedVariantId = variant.id;
+            list.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+            document.getElementById("detailPrice").textContent = money(priceFor(product, variant));
+            renderGallery(product, variant);
+          });
+          list.append(button);
+        });
+      }
+
+      function openProductDetail(productId) {
+        const product = productsForRosa().find((item) => item.id === productId);
+        if (!product) return showToast("No encontramos esa pieza. Actualiza el catálogo e inténtalo de nuevo.", "error");
+        selectedDetailProductId = product.id;
+        const variants = variantsFor(product);
+        selectedVariantId = variants[0].id;
+        const variant = variantFor(product, selectedVariantId);
+        document.getElementById("detailCategory").textContent = product.category || "Artesanía";
+        document.getElementById("detailTitle").textContent = product.title;
+        document.getElementById("detailMaker").textContent = `Hecho por ${product.artisan} · ${product.origin}`;
+        document.getElementById("detailDescription").textContent = product.description;
+        document.getElementById("detailHours").textContent = `${product.hours} ${Number(product.hours) === 1 ? "hora" : "horas"} de trabajo`;
+        document.getElementById("detailTechnique").textContent = `Técnica: ${product.technique}`;
+        document.getElementById("detailPrice").textContent = money(priceFor(product, variant));
+        renderVariantOptions(product);
+        renderGallery(product, variant);
+        productDialog.showModal();
+      }
+
+      function openOrder(productId, variantId) {
         const product = productsForRosa().find((item) => item.id === productId);
         if (!product) {
           showToast("No encontramos esa pieza. Actualiza el catálogo e inténtalo de nuevo.", "error");
           return;
         }
         selectedProductId = product.id;
+        selectedVariantId = variantId || selectedVariantId || variantsFor(product)[0].id;
+        const variant = variantFor(product, selectedVariantId);
         orderForm.reset();
         document.getElementById("orderFormView").hidden = false;
         document.getElementById("orderConfirmation").hidden = true;
         document.getElementById("orderTitle").textContent = "Pide esta pieza";
-        document.getElementById("orderProductName").textContent = `${product.title} · ${product.artisan}`;
+        document.getElementById("orderProductName").textContent = `${product.title} · ${variant.name} · ${product.artisan}`;
         document.getElementById("orderProductInfo").textContent = `${product.hours} ${Number(product.hours) === 1 ? "hora" : "horas"} de trabajo · Técnica ${product.technique} · ${product.origin}`;
         updateOrderTotal();
         orderDialog.showModal();
@@ -577,14 +859,17 @@
       function updateOrderTotal() {
         const product = productsForRosa().find((item) => item.id === selectedProductId);
         if (!product) return;
+        const variant = variantFor(product, selectedVariantId);
+        const unitPrice = priceFor(product, variant);
         const quantity = Number(document.getElementById("orderQuantity").value) || 1;
-        document.getElementById("orderSummaryText").textContent = `${quantity} ${quantity === 1 ? "pieza" : "piezas"} · ${money(product.price)} cada una`;
-        document.getElementById("orderTotal").textContent = money(product.price * quantity);
+        document.getElementById("orderSummaryText").textContent = `${quantity} ${quantity === 1 ? "pieza" : "piezas"} · ${money(unitPrice)} cada una (${variant.name})`;
+        document.getElementById("orderTotal").textContent = money(unitPrice * quantity);
       }
 
       function whatsappUrl(order) {
         const phoneNote = order.buyerPhone ? ` Mi teléfono para coordinar es ${order.buyerPhone}.` : "";
-        const message = `Hola, soy ${order.buyerName}. Quisiera consultar disponibilidad, entrega y forma de pago de ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de “${order.productTitle}”, hecha por ${order.artisan}. Total indicado: ${money(order.total)}.${phoneNote}`;
+        const variantNote = order.variantName ? `, diseño/color ${order.variantName}` : "";
+        const message = `Hola, soy ${order.buyerName}. Quisiera consultar disponibilidad, entrega y forma de pago de ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de “${order.productTitle}”${variantNote}, hecha por ${order.artisan}. Total indicado: ${money(order.total)}.${phoneNote}`;
         return `https://wa.me/${ARTESANA_WHATSAPP}?text=${encodeURIComponent(message)}`;
       }
 
@@ -599,6 +884,7 @@
         const detail = document.createElement("p");
         const date = order.createdAt ? new Intl.DateTimeFormat("es-PE", { dateStyle: "medium", timeStyle: "short" }).format(new Date(order.createdAt)) : "Fecha no disponible";
         detail.textContent = `${date} · ${order.quantity} ${Number(order.quantity) === 1 ? "pieza" : "piezas"} · ${money(order.total)} · Pedido ${order.id.slice(-6).toUpperCase()}`;
+        if (order.variantName) detail.textContent = `${order.variantName} · ${detail.textContent}`;
         const share = document.createElement("a");
         share.className = "button button-secondary button-small";
         share.href = whatsappUrl(order);
@@ -627,6 +913,7 @@
         event.preventDefault();
         const product = productsForRosa().find((item) => item.id === selectedProductId);
         if (!product) return showToast("No encontramos la pieza para guardar el pedido.", "error");
+        const variant = variantFor(product, selectedVariantId);
         const buyerName = document.getElementById("buyerName").value.trim();
         const buyerPhone = document.getElementById("buyerPhone").value.trim();
         const quantity = Number(document.getElementById("orderQuantity").value) || 1;
@@ -639,10 +926,12 @@
           id: idFor("pedido"),
           productId: product.id,
           productTitle: product.title,
+          variantId: variant.id,
+          variantName: variant.name,
           artisan: product.artisan,
-          unitPrice: Number(product.price),
+          unitPrice: priceFor(product, variant),
           quantity,
-          total: Number(product.price) * quantity,
+          total: priceFor(product, variant) * quantity,
           buyerName,
           buyerPhone,
           createdAt: new Date().toISOString()
@@ -656,7 +945,7 @@
         document.getElementById("orderFormView").hidden = true;
         document.getElementById("orderConfirmation").hidden = false;
         document.getElementById("confirmationOrderId").textContent = `Pedido ${order.id.slice(-6).toUpperCase()} · guardado en este dispositivo`;
-        document.getElementById("confirmationDetails").textContent = `${order.buyerName}, guardamos ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de ${order.productTitle} por ${money(order.total)}. Para coordinarlo, puedes compartir el pedido por WhatsApp.`;
+        document.getElementById("confirmationDetails").textContent = `${order.buyerName}, guardamos ${order.quantity} ${order.quantity === 1 ? "pieza" : "piezas"} de ${order.productTitle} (${order.variantName}) por ${money(order.total)}. Para coordinarlo, puedes compartir el pedido por WhatsApp.`;
         const shareLink = document.getElementById("shareOrderLink");
         shareLink.href = whatsappUrl(order);
         renderOrders();
@@ -687,8 +976,14 @@
       });
       document.getElementById("featuredOrderButton").addEventListener("click", () => {
         const featured = productsForRosa().find((item) => item.id === "arete-coiling-rosa") || productsForRosa()[0];
-        if (featured) openOrder(featured.id);
+        if (featured) openProductDetail(featured.id);
         else document.getElementById("catalogo").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      document.getElementById("detailOrderButton").addEventListener("click", () => {
+        const productId = selectedDetailProductId;
+        const variantId = selectedVariantId;
+        productDialog.close();
+        openOrder(productId, variantId);
       });
       document.getElementById("orderQuantity").addEventListener("change", updateOrderTotal);
       document.getElementById("viewOrdersButton").addEventListener("click", () => {
@@ -702,7 +997,7 @@
       document.querySelectorAll("[data-close]").forEach((button) => {
         button.addEventListener("click", () => document.getElementById(button.dataset.close).close());
       });
-      [orderDialog, ordersDialog].forEach((dialog) => {
+      [orderDialog, ordersDialog, productDialog, document.getElementById("adminDialog")].forEach((dialog) => {
         dialog.addEventListener("click", (event) => {
           if (event.target === dialog) dialog.close();
         });
@@ -713,5 +1008,8 @@
       renderOrders();
     })();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="rosabel-config.js"></script>
+  <script type="module" src="rosabel-admin.js"></script>
 </body>
 </html>
